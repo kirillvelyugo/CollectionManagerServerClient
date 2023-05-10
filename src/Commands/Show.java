@@ -2,6 +2,7 @@ package Commands;
 
 import Collection.Product;
 import CollectionManager.CollectionManager;
+import Commands.Command;
 import Expections.WrongArguments;
 import java.util.Iterator;
 import java.util.Set;
@@ -9,7 +10,7 @@ import java.util.Set;
 /**
  * Show command. Prints all collection elements.
  */
-public class Show implements Command{
+public class Show implements Command {
 
     private final CollectionManager collectionManager;
 
