@@ -1,6 +1,8 @@
 package Client;
 
-import Client.Commands.Show;
+import Client.Commands.ExitClient;
+import Client.Commands.MaxByNameClient;
+import Client.Commands.ShowClient;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -12,8 +14,8 @@ public class AppClient {
 
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
 
-        Show show = new Show();
+        MaxByNameClient command = new MaxByNameClient();
 
-        objectOutputStream.writeObject(show);
+        objectOutputStream.writeObject(command);
     }
 }
