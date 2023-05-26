@@ -1,21 +1,27 @@
 package Client;
 
-import Client.Commands.ExitClient;
-import Client.Commands.MaxByNameClient;
 import Client.Commands.ShowClient;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.Socket;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 
 public class AppClient {
     public static void main(String[] args) throws IOException {
-        Socket socket = new Socket("localhost", 8765);
+        DatagramSocket datagramSocket = new DatagramSocket();
 
-        ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+        ShowClient show = new ShowClient();
 
-        MaxByNameClient command = new MaxByNameClient();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream(6400);
+        ObjectOutputStream oos = new ObjectOutputStream(baos);
+        oos.writeObject(show);
+        byte[] data = baos.toByteArray();
 
-        objectOutputStream.writeObject(command);
+        final DatagramPacket packet = new DatagramPacket(data, data.length, InetAddress.getByName("localhost"), 8375);
+        datagramSocket.send(packet);
     }
 }

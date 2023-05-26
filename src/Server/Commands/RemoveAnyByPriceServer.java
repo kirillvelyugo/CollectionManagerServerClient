@@ -1,8 +1,5 @@
 package Server.Commands;
 
-import Server.CollectionManager.CollectionManager;
-import Server.Expections.WrongArguments;
-
 public class RemoveAnyByPriceServer implements ServerCommand {
 //    private final CollectionManager collectionManager;
 //

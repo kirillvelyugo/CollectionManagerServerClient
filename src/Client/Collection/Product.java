@@ -1,6 +1,6 @@
-package Server.Collection;
+package Client.Collection;
 
-import Server.ExpectionsServer.InvalidValue;
+import Client.ExpectionsClient.InvalidValue;
 import Server.Utils.DateTimeAdapter;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -23,7 +23,7 @@ public class Product implements Comparable<Product>{
     private Coordinates coordinates; // Field can be null
     @XmlElement(name = "creation_date", required = true)
     @XmlJavaTypeAdapter(DateTimeAdapter.class)
-    private java.time.ZonedDateTime creationDate; // Field can't be null, value generations automatic
+    private ZonedDateTime creationDate; // Field can't be null, value generations automatic
     @XmlElement(name = "price", required = true)
     private Double price; // Field can't be null, Value of field should be grader than 0
     @XmlElement(name = "part_number")

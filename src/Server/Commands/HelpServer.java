@@ -1,8 +1,5 @@
 package Server.Commands;
 
-import Server.Expections.WrongArguments;
-import java.util.HashMap;
-
 /**
  * Help command. Prints info about all available commands
  */

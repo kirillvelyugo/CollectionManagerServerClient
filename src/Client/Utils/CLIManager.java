@@ -1,7 +1,7 @@
-package Server.Utils;
+package Client.Utils;
 
-import Server.Collection.*;
-import Server.Expections.InvalidValue;
+import Client.Collection.*;
+import Client.ExpectionsClient.InvalidValue;;
 import java.util.Scanner;
 
 /**
@@ -270,7 +270,6 @@ public class CLIManager {
                 System.out.println(e.getMessage());
             }
         }
-
 
         // manufacturer field
         try {

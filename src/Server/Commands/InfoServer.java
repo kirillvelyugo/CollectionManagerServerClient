@@ -1,8 +1,5 @@
 package Server.Commands;
 
-import Server.CollectionManager.CollectionManager;
-import Server.Expections.WrongArguments;
-
 /**
  * Info command. Prints information about collection
  */

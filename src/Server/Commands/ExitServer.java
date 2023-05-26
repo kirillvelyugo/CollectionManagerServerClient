@@ -1,7 +1,5 @@
 package Server.Commands;
 
-import Server.Expections.WrongArguments;
-
 /**
  * Exit command. Stops program execution without saving any data to file
  */

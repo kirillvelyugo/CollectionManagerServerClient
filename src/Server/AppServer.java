@@ -1,37 +1,61 @@
 package Server;
 
 import Client.Commands.ClientCommand;
-import Client.Commands.ShowClient;
 import Server.CollectionManager.CollectionManager;
 import Server.Commands.CommandExecutor;
-import Server.Commands.ServerCommand;
-import Server.Commands.ShowServer;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.lang.reflect.Type;
+import java.io.*;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.HashMap;
+import java.util.Arrays;
 
 public class AppServer {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
+        // endless command reading
+        // endless connection establish
+        // parsing arguments
+        // executing command
+        // sending response
+
+        // if server unavailable
+        // error handing
+
         CollectionManager collectionManager = new CollectionManager(null);
         CommandExecutor commandExecutor = new CommandExecutor(collectionManager);
 
+        DatagramSocket datagramSocket = new DatagramSocket(8375);
 
-        ServerSocket serverSocket = new ServerSocket(8765);
-        Socket socket = serverSocket.accept();
+        byte[] buffered = new byte[65536];
+        DatagramPacket datagramPacket = new DatagramPacket(buffered, buffered.length);
 
-        ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
+        datagramSocket.receive(datagramPacket);
+        byte[] data = datagramPacket.getData();
 
-        ClientCommand clientCommand = (ClientCommand) objectInputStream.readObject();
-        System.out.println(clientCommand);
+        ByteArrayInputStream bais = new ByteArrayInputStream(data);
+        ObjectInputStream ois = new ObjectInputStream(bais);
+
+        ClientCommand clientCommand = (ClientCommand) ois.readObject();
+        System.out.println(clientCommand.getClass());
 
         commandExecutor.doCommand(clientCommand.getClass());
 
-        serverSocket.close();
-        socket.close();
-        objectInputStream.close();
+
+//        ServerSocket serverSocket = new ServerSocket(8765);
+//        Socket socket = serverSocket.accept();
+//
+//        ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
+//
+//        ClientCommand clientCommand = (ClientCommand) objectInputStream.readObject();
+//        System.out.println(clientCommand);
+//
+//        commandExecutor.doCommand(clientCommand.getClass());
+//
+//        serverSocket.close();
+//        socket.close();
+//        objectInputStream.close();
+
+
     }
 }

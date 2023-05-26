@@ -1,4 +1,4 @@
-package Server.Expections;
+package Client.ExpectionsClient;
 
 /**
  * Exception that throws when value does not math to requirements

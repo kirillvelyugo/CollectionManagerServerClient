@@ -1,10 +1,5 @@
 package Server.Commands;
 
-import Server.Collection.Product;
-import Server.CollectionManager.CollectionManager;
-import Server.Expections.WrongArguments;
-import Server.Utils.CLIManager;
-
 /**
  * Add command. Request element from CLI and add it to collection.
  */

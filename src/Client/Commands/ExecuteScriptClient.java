@@ -1,25 +1,25 @@
 package Client.Commands;
 
-import Server.Expections.WrongArguments;
-
-import javax.naming.NoPermissionException;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Scanner;
+import Client.ExpectionsClient.WrongArguments;
 
 /**
  * Execute script command. Takes one argument with script file path
  * This command uses collectionManager reference to call "add" method
  */
 public class ExecuteScriptClient implements ClientCommand {
+
+    @Override
+    public ExecuteScriptClient getNewObject(){
+        return new ExecuteScriptClient();
+    }
+
     @Override
     public String getDescription() {
         return "[file_path] Description: execute script in file";
+    }
+
+    @Override
+    public void prepareRequest(String[] args) throws WrongArguments {
+
     }
 }

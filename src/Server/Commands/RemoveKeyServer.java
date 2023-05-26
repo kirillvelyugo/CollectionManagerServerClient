@@ -1,8 +1,5 @@
 package Server.Commands;
 
-import Server.CollectionManager.CollectionManager;
-import Server.Expections.WrongArguments;
-
 /**
  * Class update the value of a collection item whose id is equal to the specified one
  */

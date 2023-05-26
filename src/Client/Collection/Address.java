@@ -1,6 +1,6 @@
-package Server.Collection;
+package Client.Collection;
 
-import Server.ExpectionsServer.InvalidValue;
+import Client.ExpectionsClient.InvalidValue;
 
 /**
  * Address class - use for store address organization

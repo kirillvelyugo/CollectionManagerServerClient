@@ -1,4 +1,4 @@
-package Server.Expections;
+package Client.ExpectionsClient;
 
 /**
  * Exception that throws when command argument value does not math type

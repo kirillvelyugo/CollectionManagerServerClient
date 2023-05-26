@@ -1,14 +1,24 @@
 package Client.Commands;
 
-import Server.CollectionManager.CollectionManager;
-import Server.Expections.WrongArguments;
+import Client.ExpectionsClient.WrongArguments;
 
 /**
  * Clear command. Delete all items from collection.
  */
 public class ClearClient implements ClientCommand {
+
+    @Override
+    public ClearClient getNewObject(){
+        return new ClearClient();
+    }
+
     @Override
     public String getDescription() {
         return "[] Description: clear the collection";
+    }
+
+    @Override
+    public void prepareRequest(String[] args) throws WrongArguments {
+
     }
 }

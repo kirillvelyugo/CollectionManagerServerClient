@@ -1,6 +1,6 @@
-package Server.Collection;
+package Client.Collection;
 
-import Server.ExpectionsServer.InvalidValue;
+import Client.ExpectionsClient.InvalidValue;
 
 /**
  * Organization class - use for store information about organization

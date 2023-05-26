@@ -2,7 +2,6 @@ package Server.Commands;
 
 import Client.Commands.*;
 import Server.CollectionManager.CollectionManager;
-import Server.Expections.WrongArguments;
 
 import java.lang.reflect.Type;
 import java.util.*;
