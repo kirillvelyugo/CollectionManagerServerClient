@@ -3,6 +3,7 @@ package Commands;
 import Collection.Product;
 import Expections.WrongArguments;
 import Utils.CLIManager;
+import Utils.Response;
 
 /**
  * Class update the value of a collection item whose id is equal to the specified one
@@ -33,5 +34,10 @@ public class UpdateClient implements ClientCommand {
         Product product = new Product();
         cliManager.requestProduct(product);
         this.product = product;
+    }
+
+    @Override
+    public void acceptResponse(Response response) {
+
     }
 }

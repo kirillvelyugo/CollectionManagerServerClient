@@ -2,6 +2,7 @@ package Commands;
 
 
 import Expections.WrongArguments;
+import Utils.Response;
 
 /**
  * Add command. Request element from CLI and add it to collection.
@@ -19,6 +20,11 @@ public class InsertClient implements ClientCommand {
 
     @Override
     public void prepareRequest(String[] args) throws WrongArguments {
+
+    }
+
+    @Override
+    public void acceptResponse(Response response) {
 
     }
 }

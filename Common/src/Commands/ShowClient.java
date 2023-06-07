@@ -1,6 +1,7 @@
 package Commands;
 
 import Expections.WrongArguments;
+import Utils.Response;
 
 /**
  * Show command. Prints all collection elements.
@@ -18,6 +19,11 @@ public class ShowClient implements ClientCommand {
 
     @Override
     public void prepareRequest(String[] args) throws WrongArguments {
+
+    }
+
+    @Override
+    public void acceptResponse(Response response) {
 
     }
 }

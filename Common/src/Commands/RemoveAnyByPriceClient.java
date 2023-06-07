@@ -2,6 +2,7 @@ package Commands;
 
 
 import Expections.WrongArguments;
+import Utils.Response;
 
 public class RemoveAnyByPriceClient implements ClientCommand {
     @Override
@@ -16,6 +17,11 @@ public class RemoveAnyByPriceClient implements ClientCommand {
 
     @Override
     public void prepareRequest(String[] args) throws WrongArguments {
+
+    }
+
+    @Override
+    public void acceptResponse(Response response) {
 
     }
 }

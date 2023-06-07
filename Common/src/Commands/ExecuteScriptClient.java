@@ -1,6 +1,7 @@
 package Commands;
 
 import Expections.WrongArguments;
+import Utils.Response;
 
 /**
  * Execute script command. Takes one argument with script file path
@@ -20,6 +21,11 @@ public class ExecuteScriptClient implements ClientCommand {
 
     @Override
     public void prepareRequest(String[] args) throws WrongArguments {
+
+    }
+
+    @Override
+    public void acceptResponse(Response response) {
 
     }
 }

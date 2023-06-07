@@ -1,6 +1,7 @@
 package Commands;
 
 import Expections.WrongArguments;
+import Utils.Response;
 
 /**
  * Help command. Prints info about all available commands
@@ -18,6 +19,11 @@ public class HelpClient implements ClientCommand {
 
     @Override
     public void prepareRequest(String[] args) throws WrongArguments {
+
+    }
+
+    @Override
+    public void acceptResponse(Response response) {
 
     }
 }

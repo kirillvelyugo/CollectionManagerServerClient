@@ -1,6 +1,7 @@
 package Commands;
 
 import Expections.WrongArguments;
+import Utils.Response;
 
 /**
  * Exit command. Stops program execution without saving any data to file
@@ -19,6 +20,11 @@ public class ExitClient implements ClientCommand {
 
     @Override
     public void prepareRequest(String[] args) throws WrongArguments {
+
+    }
+
+    @Override
+    public void acceptResponse(Response response) {
 
     }
 }
