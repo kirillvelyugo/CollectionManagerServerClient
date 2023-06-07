@@ -2,10 +2,12 @@ package Collection;
 
 import Expections.InvalidValue;
 
+import java.io.Serializable;
+
 /**
  * Coordinates class - use for store coordinates of product
  */
-public class Coordinates {
+public class Coordinates implements Serializable {
     private double x;
     private Long y; // Max value: 315, Field can't be null
 

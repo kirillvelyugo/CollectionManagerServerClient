@@ -2,10 +2,12 @@ package Collection;
 
 import Expections.InvalidValue;
 
+import java.io.Serializable;
+
 /**
  * Organization class - use for store information about organization
  */
-public class Organization {
+public class Organization implements Serializable {
     private long id; // Value of field should be grader than 0, value of field should be unique and generate automatic
     private String name; // Field can't be null, String shouldn't be empty
     private Long employeesCount; // Field can't be null, value of field should be grader than 0

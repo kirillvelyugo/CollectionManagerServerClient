@@ -7,6 +7,7 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -14,7 +15,7 @@ import java.time.format.DateTimeFormatter;
  * Product class - main class of collections
  */
 @XmlAccessorType(XmlAccessType.NONE)
-public class Product implements Comparable<Product>{
+public class Product implements Comparable<Product>, Serializable {
     @XmlElement(name = "id", required = true)
     final private Integer id; // Filed can't be null, Value of field should be grader than 0, value of field should be unique and generate automatic
     @XmlElement(name = "name", required = true)

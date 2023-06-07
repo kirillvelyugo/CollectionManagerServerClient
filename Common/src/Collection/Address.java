@@ -2,10 +2,12 @@ package Collection;
 
 import Expections.InvalidValue;
 
+import java.io.Serializable;
+
 /**
  * Address class - use for store address organization
  */
-public class Address {
+public class Address implements Serializable {
     private String zipCode; // Field can be null
 
     public String getZipCode() {
