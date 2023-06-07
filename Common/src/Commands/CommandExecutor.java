@@ -38,8 +38,12 @@ public class CommandExecutor {
         args[0] = args[0].toLowerCase().strip();
 
         if (commands.containsKey(args[0])) {
-            ClientCommand newObj = commands.get(args[0]).getNewObject();
-            newObj.prepareRequest(args);
+            ClientCommand newObj = commands.get(args[0]).getNewObject(); // create new instance
+            newObj.prepareRequest(args); // prepare command to send
+            // TODO send command to server
+            // TODO get response
+            // TODO acceptResponse
+
         } else {
             System.out.println("Command not found");
         }
