@@ -1,6 +1,7 @@
 package Commands;
 
 import CollectionManager.CollectionManager;
+import Utils.Response;
 
 import java.lang.reflect.Type;
 import java.util.*;
@@ -19,7 +20,7 @@ public class CommandExecutor {
         this.commands.put(HelpClient.class, new HelpServer());
         this.commands.put(InfoClient.class, new InfoServer());
         this.commands.put(ShowClient.class, new ShowServer());
-        this.commands.put(InsertClient.class, new InsertServer());
+        this.commands.put(InsertClient.class, new InsertServer(collectionManager));
         this.commands.put(UpdateClient.class, new UpdateServer());
         this.commands.put(RemoveKeyClient.class, new RemoveKeyServer());
         this.commands.put(ClearClient.class, new ClearServer());
@@ -34,37 +35,10 @@ public class CommandExecutor {
         this.commands.put(FilterLessThanUnitOfMeasureClient.class, new FilterLessThanUnitOfMeasureServer());
     }
 
-    public void doCommand (Type type){
-        ServerCommand command = this.commands.get(type);
-        command.execute();
-    }
+    public Response doCommand (ClientCommand command){
+        ServerCommand serverCommand = this.commands.get(command.getClass());
+        Response response = serverCommand.execute(command);
 
-//    /**
-//     * Enter an interactive mode with CLI commands execution
-//     */
-//    public void interactiveMode (){
-//        while (true){
-//            Scanner console = new Scanner(System.in);
-//            try {
-//                String line = console.nextLine();
-//
-//                String[] args = line.split(" ");
-//                args[0] = args[0].toLowerCase().strip();
-//
-//                if (commands.containsKey(args[0])) {
-//                    try {
-//                        commands.get(args[0]).execute(args);
-//                    } catch (WrongArguments e) {
-//                        System.out.println("Incorrect arguments. Try again. " + e.getMessage());
-//                    }
-//                } else {
-//                    System.out.println("Command not found. Try again or read help");
-//                }
-//            }
-//            catch (NoSuchElementException e){
-//                System.out.println("Exit interactive mode");
-//                return;
-//            }
-//        }
-//    }
+        return response;
+    }
 }

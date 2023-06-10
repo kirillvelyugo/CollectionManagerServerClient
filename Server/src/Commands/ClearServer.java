@@ -1,5 +1,7 @@
 package Commands;
 
+import Utils.Response;
+
 /**
  * Clear command. Delete all items from collection.
  */
@@ -12,8 +14,9 @@ public class ClearServer implements ServerCommand {
 //    }
 
     @Override
-    public void execute() {
+    public Response execute(ClientCommand command) {
         System.out.println("Clear completed");
+        return new Response(200);
     }
 
     @Override

@@ -1,5 +1,7 @@
 package Commands;
 
+import Utils.Response;
+
 /**
  * Class output any object from the collection whose name field value is the maximum
  */
@@ -31,8 +33,9 @@ public class MaxByNameServer implements ServerCommand {
 //    }
 
     @Override
-    public void execute() {
+    public Response execute(ClientCommand command) {
         System.out.println("MaxByName completed");
+        return new Response(200);
     }
 
     @Override

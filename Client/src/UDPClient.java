@@ -25,6 +25,7 @@ public class UDPClient {
     }
 
     public Response readResponse() throws IOException, ClassNotFoundException {
+
         byte[] buffered = new byte[2048];
         DatagramPacket datagramPacket = new DatagramPacket(buffered, buffered.length);
 

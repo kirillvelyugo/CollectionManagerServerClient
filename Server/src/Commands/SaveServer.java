@@ -1,5 +1,7 @@
 package Commands;
 
+import Utils.Response;
+
 /**
  * Save collection to file
  */
@@ -41,8 +43,9 @@ public class SaveServer implements ServerCommand {
 //    }
 
     @Override
-    public void execute() {
+    public Response execute(ClientCommand command) {
         System.out.println("Save completed");
+        return new Response(200);
     }
 
     @Override

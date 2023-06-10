@@ -1,4 +1,5 @@
 import Commands.ClientCommand;
+import Commands.CommandExecutor;
 import Utils.Response;
 
 import java.io.*;
@@ -45,5 +46,20 @@ public class UDPServer {
         return clientCommand;
     }
 
+    public void interactiveMode (CommandExecutor commandExecutor) {
+        while (true){
+            try {
+                DatagramPacket datagramPacket = this.readRequest();
+                ClientCommand command = this.getRequest(datagramPacket);
+
+                Response response = commandExecutor.doCommand(command);
+
+                this.sendResponse(response, datagramPacket);
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
 
 }

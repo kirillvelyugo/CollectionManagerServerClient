@@ -1,5 +1,7 @@
 package Commands;
 
+import Utils.Response;
+
 /**
  * Class remove all items from the collection whose key is less than the specified one
  */
@@ -28,8 +30,9 @@ public class RemoveLowerKeyServer implements ServerCommand {
 //    }
 
     @Override
-    public void execute() {
+    public Response execute(ClientCommand command) {
         System.out.println("RemoveLowerKey completed");
+        return new Response(200);
     }
 
     @Override

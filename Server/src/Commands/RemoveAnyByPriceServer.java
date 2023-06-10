@@ -1,5 +1,7 @@
 package Commands;
 
+import Utils.Response;
+
 public class RemoveAnyByPriceServer implements ServerCommand {
 //    private final CollectionManager collectionManager;
 //
@@ -30,8 +32,9 @@ public class RemoveAnyByPriceServer implements ServerCommand {
 //    }
 
     @Override
-    public void execute() {
+    public Response execute(ClientCommand command) {
         System.out.println("RemoveAnyByPrice completed");
+        return new Response(200);
     }
 
     @Override

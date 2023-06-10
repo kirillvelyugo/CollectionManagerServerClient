@@ -1,31 +1,34 @@
 package Commands;
 
+import Collection.Product;
+import CollectionManager.CollectionManager;
+import Utils.Response;
+
 /**
  * Add command. Request element from CLI and add it to collection.
  */
 public class InsertServer implements ServerCommand {
-//    private final CollectionManager collectionManager;
-//
-//    public InsertServer(CollectionManager collectionManager){
-//        this.collectionManager = collectionManager;
-//    }
-//
-//    @Override
-//    public void execute(String[] args) throws WrongArguments {
-//        CLIManager cliManager = new CLIManager();
-//
-//        if (args.length < 2) throw new WrongArguments("Not enough arguments");
-//        if (collectionManager.containsKey(args[1])) throw new WrongArguments("Key already exist");
-//        Product product = new Product();
-//        cliManager.requestProduct(product);
-//        collectionManager.addObj(args[1], product);
-//
-//        System.out.println("--Insert successfully--");
-//    }
+    private final CollectionManager collectionManager;
+
+    public InsertServer(CollectionManager collectionManager) {
+        this.collectionManager = collectionManager;
+    }
 
     @Override
-    public void execute() {
-        System.out.println("Insert completed");
+    public Response execute(ClientCommand command) {
+        InsertClient insertClient = (InsertClient) command;
+        String key = insertClient.getKey();
+        Product product = insertClient.getProduct();
+
+        if (collectionManager.containsKey(key)) {
+            Response response = new Response(400);
+            response.setMessage("Key already exists!");
+            return response;
+        }
+
+        this.collectionManager.addObj(key, product);
+
+        return new Response(200);
     }
 
     @Override

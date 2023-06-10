@@ -1,5 +1,7 @@
 package Commands;
 
+import Utils.Response;
+
 /**
  * Class update the value of a collection item whose id is equal to the specified one
  */
@@ -30,8 +32,9 @@ public class UpdateServer implements ServerCommand {
 //    }
 
     @Override
-    public void execute() {
+    public Response execute(ClientCommand command) {
         System.out.println("Update completed");
+        return new Response(200);
     }
 
     @Override

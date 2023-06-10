@@ -1,5 +1,7 @@
 package Commands;
 
+import Utils.Response;
+
 /**
  * Class output elements whose unit Of Measure field value is less than the specified one
  */
@@ -33,8 +35,9 @@ public class FilterLessThanUnitOfMeasureServer implements ServerCommand {
 //    }
 
     @Override
-    public void execute() {
+    public Response execute(ClientCommand command) {
         System.out.println("FilterLessThanUnitOfMeasure completed");
+        return new Response(200);
     }
 
     @Override

@@ -1,5 +1,7 @@
 package Commands;
 
+import Utils.Response;
+
 /**
  * Execute script command. Takes one argument with script file path
  * This command uses collectionManager reference to call "add" method
@@ -78,8 +80,9 @@ public class ExecuteScriptServer implements ServerCommand {
 //    }
 
     @Override
-    public void execute() {
+    public Response execute(ClientCommand command) {
         System.out.println("ExecuteScript completed");
+        return new Response(200);
     }
 
     @Override

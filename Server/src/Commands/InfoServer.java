@@ -1,5 +1,7 @@
 package Commands;
 
+import Utils.Response;
+
 /**
  * Info command. Prints information about collection
  */
@@ -16,8 +18,9 @@ public class InfoServer implements ServerCommand {
 //    }
 
     @Override
-    public void execute() {
+    public Response execute(ClientCommand command) {
         System.out.println("Info completed");
+        return new Response(200);
     }
 
     @Override
