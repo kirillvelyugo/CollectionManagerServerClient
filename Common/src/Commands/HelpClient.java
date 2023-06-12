@@ -24,6 +24,6 @@ public class HelpClient implements ClientCommand {
 
     @Override
     public void acceptResponse(Response response) {
-
+        System.out.println(response.getResponseCode());
     }
 }

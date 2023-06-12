@@ -41,7 +41,6 @@ public class InsertClient implements ClientCommand {
         cliManager.requestProduct(product);
         this.product = product;
         this.key = args[1];
-
     }
 
     @Override

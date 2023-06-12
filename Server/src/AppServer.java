@@ -17,7 +17,7 @@ public class AppServer {
         CollectionManager collectionManager = new CollectionManager(null);
         CommandExecutor commandExecutor = new CommandExecutor(collectionManager);
 
-        UDPServer udpServer = new UDPServer(3434);
+        UDPServer udpServer = new UDPServer(7654);
         udpServer.interactiveMode(commandExecutor);
 //        DatagramPacket requestPacket = udpServer.readRequest();
 //        ClientCommand clientCommand = (ClientCommand) udpServer.getRequest(requestPacket);

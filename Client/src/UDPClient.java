@@ -1,9 +1,13 @@
 import Commands.ClientCommand;
+import Commands.CommandExecutor;
+import Expections.WrongArguments;
 import Utils.Response;
 
 import java.io.*;
 import java.net.*;
-import java.nio.channels.DatagramChannel;
+import java.util.NoSuchElementException;
+import java.util.Scanner;
+
 
 public class UDPClient {
     private final DatagramSocket datagramSocket;
@@ -38,6 +42,42 @@ public class UDPClient {
         Response response = (Response) ois.readObject();
         return response;
     }
+
+    public void interactiveMode (){
+        CommandExecutor commandExecutor = new CommandExecutor();
+
+        while (true){
+            Scanner console = new Scanner(System.in);
+            try {
+                String line = console.nextLine();
+
+                String[] args = line.split(" ");
+                args[0] = args[0].toLowerCase().strip();
+
+                try {
+                    ClientCommand clientCommand = commandExecutor.getCommand(args[0]);
+                    if (clientCommand == null) {
+                        System.out.println("No such command");
+                        continue;
+                    }
+                    clientCommand = clientCommand.getNewObject();
+                    clientCommand.prepareRequest(args);
+
+                    this.sendRequest(clientCommand);
+                    clientCommand.acceptResponse(this.readResponse());
+                } catch (WrongArguments e){
+                    System.out.println("Incorrect arguments. Try again. " + e.getMessage());
+                } catch (IOException | ClassNotFoundException e){
+                    System.out.println(e.getMessage());
+                }
+            }
+            catch (NoSuchElementException e){
+                System.out.println("Exit interactive mode");
+                return;
+            }
+        }
+    }
+
 
 
 

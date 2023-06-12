@@ -10,14 +10,11 @@ import java.net.InetAddress;
 
 public class AppClient {
     public static void main(String[] args) throws IOException, WrongArguments, ClassNotFoundException {
-        UDPClient connection = new UDPClient("localhost", 3434);
+        UDPClient connection = new UDPClient("localhost", 7654);
 
-        ClientCommand insert = new InsertClient();
-        args = new String[]{"update", "1"};
-        insert.prepareRequest(args);
+        connection.interactiveMode(
 
-        connection.sendRequest(insert);
-        insert.acceptResponse(connection.readResponse());
+        );
 
     }
 }
