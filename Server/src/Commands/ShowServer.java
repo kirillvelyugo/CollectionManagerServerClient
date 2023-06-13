@@ -1,12 +1,21 @@
 package Commands;
 
+import CollectionManager.CollectionManager;
 import Utils.Response;
 
 public class ShowServer implements ServerCommand {
+    private CollectionManager collectionManager;
+
+    public ShowServer (CollectionManager collectionManager){
+        this.collectionManager = collectionManager;
+    }
+
     @Override
     public Response execute(ClientCommand command) {
-        System.out.println("Show is completed");
-        return new Response(200);
+        Response response = new Response();
+        response.setPayload(collectionManager.getProducts());
+        response.setResponseCode(200);
+        return response;
     }
 
     @Override

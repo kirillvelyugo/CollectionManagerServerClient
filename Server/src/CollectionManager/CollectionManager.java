@@ -216,7 +216,9 @@ public class CollectionManager {
        }
     }
 
-
+    public LinkedHashMap<String, Product> getProducts() {
+        return products;
+    }
 }
 
 

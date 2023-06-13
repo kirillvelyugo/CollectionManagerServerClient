@@ -9,6 +9,10 @@ public class Response implements Serializable {
     private String message;
     private Object payload;
 
+    public Response (){
+
+    }
+
     public Response(int responseCode) {
         this.responseCode = responseCode;
     }
