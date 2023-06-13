@@ -51,7 +51,7 @@ public class Product implements Comparable<Product>, Serializable {
         return name;
     }
 
-    public Coordinates getCoordinates(Coordinates coordinates) {
+    public Coordinates getCoordinates() {
         return this.coordinates;
     }
 
@@ -79,7 +79,8 @@ public class Product implements Comparable<Product>, Serializable {
      * Set Id
      * @param id id
      */
-    private void setId(Long id) {}
+    private void setId(Integer id) {
+    }
 
     /**
      * Set name

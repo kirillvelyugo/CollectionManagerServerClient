@@ -71,6 +71,10 @@ public class CollectionManager {
         return null;
     }
 
+    public void updateById (){
+        
+    }
+
     /**
      * Return iterator
      * @return iterator of product

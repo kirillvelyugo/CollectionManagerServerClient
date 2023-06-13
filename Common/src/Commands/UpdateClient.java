@@ -12,6 +12,14 @@ public class UpdateClient implements ClientCommand {
     private Integer id;
     private Product product;
 
+    public Product getProduct() {
+        return product;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
     @Override
     public UpdateClient getNewObject(){
         return new UpdateClient();
@@ -38,6 +46,10 @@ public class UpdateClient implements ClientCommand {
 
     @Override
     public void acceptResponse(Response response) {
-
+        if(response.getResponseCode() == 200){
+            System.out.println("Element added successfully");
+        } else{
+            System.out.println("Request failed with message: " + response.getMessage());
+        }
     }
 }
