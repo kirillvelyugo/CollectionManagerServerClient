@@ -10,21 +10,6 @@ public class RemoveAnyByPriceServer implements ServerCommand {
     public RemoveAnyByPriceServer(CollectionManager collectionManager) {
         this.collectionManager = collectionManager;
     }
-//
-//    @Override
-//    public void execute(String[] args) throws WrongArguments {
-//
-//
-//
-//        for(String key : collectionManager.getKeySet()){
-//            if (collectionManager.getByKey(key).getPrice().equals(price)){
-//                collectionManager.removeKey(key);
-//                System.out.println("--Removed successfully--");
-//                return;
-//            }
-//        }
-//        System.out.println("Nothing to remove");
-//    }
 
     @Override
     public Response execute(ClientCommand command) {

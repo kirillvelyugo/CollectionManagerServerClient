@@ -1,42 +1,49 @@
 package Commands;
 
+import CollectionManager.CollectionManager;
 import Utils.Response;
 import Utils.ResponseCodes;
+
+import java.util.Set;
 
 /**
  * Class output any object from the collection whose name field value is the maximum
  */
 public class MaxByNameServer implements ServerCommand {
-//    private final CollectionManager collectionManager;
-//
-//    public MaxByNameServer(CollectionManager collectionManager) {
-//        this.collectionManager = collectionManager;
-//    }
-//
-//    @Override
-//    public void execute(String[] args) throws WrongArguments {
-//        // get max by name
-//        Set<String> keyset = collectionManager.getKeySet();
-//        String maxName = null;
-//        String keyToShow = null;
-//        for(String key : keyset){
-//            if(maxName == null) {
-//                maxName = collectionManager.getByKey(key).getName();
-//                keyToShow = key;
-//            }
-//            if(collectionManager.getByKey(key).getName().compareTo(maxName) > 0){
-//                maxName = collectionManager.getByKey(key).getName();
-//                keyToShow = key;
-//            }
-//        }
-//        if(maxName == null) System.out.println("Nothing to show");
-//        else System.out.println(collectionManager.getByKey(keyToShow));
-//    }
+    private final CollectionManager collectionManager;
+
+    public MaxByNameServer(CollectionManager collectionManager) {
+        this.collectionManager = collectionManager;
+    }
 
     @Override
     public Response execute(ClientCommand command) {
-        System.out.println("MaxByName completed");
-        return new Response(ResponseCodes.OK);
+        Set<String> keyset = collectionManager.getKeySet();
+
+        String maxName = null;
+        String key = null;
+        for(String k : keyset){
+            if(maxName == null) {
+                maxName = collectionManager.getByKey(k).getName();
+                key = k;
+            }
+            if(collectionManager.getByKey(k).getName().compareTo(maxName) > 0){
+                maxName = collectionManager.getByKey(k).getName();
+                key = k;
+            }
+        }
+
+        Response response = new Response();
+        if (maxName == null){
+            response.setMessage(" Nothing to show");
+            response.setResponseCode(ResponseCodes.OK_WITH_MESSAGE);
+        }
+        else {
+            response.setPayload(collectionManager.getByKey(key));
+            response.setResponseCode(ResponseCodes.OK);
+        }
+
+        return response;
     }
 
     @Override
