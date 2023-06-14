@@ -1,6 +1,7 @@
 package Commands;
 
 import Utils.Response;
+import Utils.ResponseCodes;
 
 /**
  * Class replace the value by key if the new value is greater than the old one
@@ -35,7 +36,7 @@ public class ReplaceIfGreaterServer implements ServerCommand {
     @Override
     public Response execute(ClientCommand command) {
         System.out.println("ReplaceIfGreater completed");
-        return new Response(200);
+        return new Response(ResponseCodes.OK);
     }
 
     @Override

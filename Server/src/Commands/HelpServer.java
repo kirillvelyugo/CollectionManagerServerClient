@@ -1,6 +1,7 @@
 package Commands;
 
 import Utils.Response;
+import Utils.ResponseCodes;
 
 /**
  * Help command. Prints info about all available commands
@@ -24,7 +25,7 @@ public class HelpServer implements ServerCommand {
     @Override
     public Response execute(ClientCommand command) {
         System.out.println("Help completed");
-        return new Response(200);
+        return new Response(ResponseCodes.OK);
     }
 
     @Override

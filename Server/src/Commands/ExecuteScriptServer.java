@@ -1,6 +1,7 @@
 package Commands;
 
 import Utils.Response;
+import Utils.ResponseCodes;
 
 /**
  * Execute script command. Takes one argument with script file path
@@ -82,7 +83,7 @@ public class ExecuteScriptServer implements ServerCommand {
     @Override
     public Response execute(ClientCommand command) {
         System.out.println("ExecuteScript completed");
-        return new Response(200);
+        return new Response(ResponseCodes.OK);
     }
 
     @Override

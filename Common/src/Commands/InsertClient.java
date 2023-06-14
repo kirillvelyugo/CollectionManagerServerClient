@@ -5,6 +5,7 @@ import Collection.Product;
 import Expections.WrongArguments;
 import Utils.CLIManager;
 import Utils.Response;
+import Utils.ResponseCodes;
 
 /**
  * Add command. Request element from CLI and add it to collection.
@@ -45,10 +46,13 @@ public class InsertClient implements ClientCommand {
 
     @Override
     public void acceptResponse(Response response) {
-        if (response.getResponseCode() == 200){
+        if (response.getResponseCode().equals(ResponseCodes.OK)){
             System.out.println("Inserted successfully");
-        } else {
+        } else if (response.getResponseCode().equals(ResponseCodes.OK_WITH_MESSAGE)) {
             System.out.println(response.getMessage());
+        } else {
+            System.out.println("Request failed with message: " + response.getMessage());
         }
+        
     }
 }

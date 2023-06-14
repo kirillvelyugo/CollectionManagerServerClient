@@ -1,6 +1,7 @@
 package Commands;
 
 import Utils.Response;
+import Utils.ResponseCodes;
 
 /**
  * Class update the value of a collection item whose id is equal to the specified one
@@ -26,7 +27,7 @@ public class RemoveKeyServer implements ServerCommand {
     @Override
     public Response execute(ClientCommand command) {
         System.out.println("RemoveKey completed");
-        return new Response(200);
+        return new Response(ResponseCodes.OK);
     }
 
     @Override

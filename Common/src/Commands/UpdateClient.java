@@ -4,6 +4,7 @@ import Collection.Product;
 import Expections.WrongArguments;
 import Utils.CLIManager;
 import Utils.Response;
+import Utils.ResponseCodes;
 
 /**
  * Class update the value of a collection item whose id is equal to the specified one
@@ -48,9 +49,11 @@ public class UpdateClient implements ClientCommand {
 
     @Override
     public void acceptResponse(Response response) {
-        if(response.getResponseCode() == 200){
+        if (response.getResponseCode().equals(ResponseCodes.OK)){
             System.out.println("Element added successfully");
-        } else{
+        } else if (response.getResponseCode().equals(ResponseCodes.OK_WITH_MESSAGE)){
+            System.out.println(response.getMessage());
+        } else {
             System.out.println("Request failed with message: " + response.getMessage());
         }
     }

@@ -1,6 +1,7 @@
 package Commands;
 
 import Utils.Response;
+import Utils.ResponseCodes;
 
 /**
  * Exit command. Stops program execution without saving any data to file
@@ -9,7 +10,7 @@ public class ExitServer implements ServerCommand {
     @Override
     public Response execute(ClientCommand command) {
         System.out.println("Exit completed");
-        return new Response(200);
+        return new Response(ResponseCodes.OK);
     }
 
     @Override

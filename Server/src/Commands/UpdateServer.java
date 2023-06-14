@@ -4,6 +4,7 @@ import Collection.Product;
 import CollectionManager.CollectionManager;
 import Expections.InvalidValue;
 import Utils.Response;
+import Utils.ResponseCodes;
 
 /**
  * Class update the value of a collection item whose id is equal to the specified one
@@ -24,7 +25,7 @@ public class UpdateServer implements ServerCommand {
         String key = collectionManager.getKeyById(id);
 
         if(key == null) {
-            Response response = new Response(400);
+            Response response = new Response(ResponseCodes.ERROR);
             response.setMessage("No element with such id");
             return response;
         }
@@ -32,7 +33,7 @@ public class UpdateServer implements ServerCommand {
         productNew.setId(id);
         collectionManager.update(key, productNew);
 
-        return new Response(200);
+        return new Response(ResponseCodes.OK);
     }
 
     @Override

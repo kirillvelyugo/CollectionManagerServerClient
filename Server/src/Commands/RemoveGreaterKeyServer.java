@@ -1,6 +1,7 @@
 package Commands;
 
 import Utils.Response;
+import Utils.ResponseCodes;
 
 /**
  * Class remove from the collection all items whose key exceeds the specified one
@@ -33,7 +34,7 @@ public class RemoveGreaterKeyServer implements ServerCommand {
     @Override
     public Response execute(ClientCommand command) {
         System.out.println("RemoveGreaterKey completed");
-        return new Response(200);
+        return new Response(ResponseCodes.OK);
     }
 
     @Override

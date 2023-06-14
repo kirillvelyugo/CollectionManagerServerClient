@@ -2,6 +2,7 @@ package Commands;
 
 import CollectionManager.CollectionManager;
 import Utils.Response;
+import Utils.ResponseCodes;
 
 public class ShowServer implements ServerCommand {
     private CollectionManager collectionManager;
@@ -14,7 +15,7 @@ public class ShowServer implements ServerCommand {
     public Response execute(ClientCommand command) {
         Response response = new Response();
         response.setPayload(collectionManager.getProducts());
-        response.setResponseCode(200);
+        response.setResponseCode(ResponseCodes.OK);
         return response;
     }
 

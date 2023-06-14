@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 public class Response implements Serializable {
 
-    private int responseCode;
+    private ResponseCodes responseCode;
     private String message;
     private Object payload;
 
@@ -13,15 +13,15 @@ public class Response implements Serializable {
 
     }
 
-    public Response(int responseCode) {
+    public Response(ResponseCodes responseCode) {
         this.responseCode = responseCode;
     }
 
-    public int getResponseCode() {
+    public ResponseCodes getResponseCode() {
         return responseCode;
     }
 
-    public void setResponseCode(int responseCode) {
+    public void setResponseCode(ResponseCodes responseCode) {
         this.responseCode = responseCode;
     }
 

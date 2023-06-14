@@ -3,6 +3,7 @@ package Commands;
 import Collection.Product;
 import CollectionManager.CollectionManager;
 import Utils.Response;
+import Utils.ResponseCodes;
 
 /**
  * Add command. Request element from CLI and add it to collection.
@@ -21,14 +22,14 @@ public class InsertServer implements ServerCommand {
         Product product = insertClient.getProduct();
 
         if (collectionManager.containsKey(key)) {
-            Response response = new Response(400);
+            Response response = new Response(ResponseCodes.ERROR);
             response.setMessage("Key already exists!");
             return response;
         }
 
         this.collectionManager.addObj(key, product);
 
-        return new Response(200);
+        return new Response(ResponseCodes.OK);
     }
 
     @Override
