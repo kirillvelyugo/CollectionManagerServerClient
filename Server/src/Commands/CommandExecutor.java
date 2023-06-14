@@ -28,7 +28,7 @@ public class CommandExecutor {
         this.commands.put(ExecuteScriptClient.class, new ExecuteScriptServer());
         this.commands.put(ExitClient.class, new ExitServer());
         this.commands.put(ReplaceIfGreaterClient.class, new ReplaceIfGreaterServer());
-        this.commands.put(RemoveGreaterKeyClient.class, new RemoveGreaterKeyServer());
+        this.commands.put(RemoveGreaterKeyClient.class, new RemoveGreaterKeyServer(collectionManager));
         this.commands.put(RemoveLowerKeyClient.class, new RemoveLowerKeyServer());
         this.commands.put(RemoveAnyByPriceClient.class, new RemoveAnyByPriceServer(collectionManager));
         this.commands.put(MaxByNameClient.class, new MaxByNameServer(collectionManager));

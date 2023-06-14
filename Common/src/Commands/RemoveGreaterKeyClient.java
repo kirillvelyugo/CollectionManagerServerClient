@@ -3,11 +3,18 @@ package Commands;
 
 import Expections.WrongArguments;
 import Utils.Response;
+import Utils.ResponseCodes;
 
 /**
  * Class remove from the collection all items whose key exceeds the specified one
  */
 public class RemoveGreaterKeyClient implements ClientCommand {
+    private String key;
+
+    public String getKey() {
+        return key;
+    }
+
     @Override
     public RemoveGreaterKeyClient getNewObject(){
         return new RemoveGreaterKeyClient();
@@ -20,11 +27,18 @@ public class RemoveGreaterKeyClient implements ClientCommand {
 
     @Override
     public void prepareRequest(String[] args) throws WrongArguments {
+        if (args.length < 2) throw new WrongArguments("Not enough arguments");
 
+        this.key = args[1];
     }
 
     @Override
     public void acceptResponse(Response response) {
-
+        if (response.getResponseCode().equals(ResponseCodes.OK)){
+            int counter = (int) response.getPayload();
+            System.out.println("--Removed " + counter + " elements--");
+        } else {
+            System.out.println(response.getMessage());
+        }
     }
 }
