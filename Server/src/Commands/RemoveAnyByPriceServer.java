@@ -42,4 +42,9 @@ public class RemoveAnyByPriceServer implements ServerCommand {
     public String getDescription() {
         return "[price] Description: remove one element from the collection, the value of the price field of which is equivalent to the given one";
     }
+
+    @Override
+    public String getName() {
+        return "Remove_any_by_price";
+    }
 }

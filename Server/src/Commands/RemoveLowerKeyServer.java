@@ -40,4 +40,9 @@ public class RemoveLowerKeyServer implements ServerCommand {
     public String getDescription() {
         return "[key] Description: remove all items from the collection whose key is less than the specified one";
     }
+
+    @Override
+    public String getName() {
+        return "Remove_lower_key";
+    }
 }

@@ -90,4 +90,9 @@ public class ExecuteScriptServer implements ServerCommand {
     public String getDescription() {
         return "[file_path] Description: execute script in file";
     }
+
+    @Override
+    public String getName() {
+        return "Execute_script";
+    }
 }

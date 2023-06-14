@@ -24,4 +24,9 @@ public class ClearServer implements ServerCommand {
     public String getDescription() {
         return "[] Description: clear the collection";
     }
+
+    @Override
+    public String getName() {
+        return "Clear";
+    }
 }

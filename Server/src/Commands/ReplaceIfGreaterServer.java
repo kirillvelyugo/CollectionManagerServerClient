@@ -43,4 +43,9 @@ public class ReplaceIfGreaterServer implements ServerCommand {
     public String getDescription() {
         return "[key] Description: replace the value by key if the new value is greater than the old one";
     }
+
+    @Override
+    public String getName() {
+        return "Replace_if_greater";
+    }
 }

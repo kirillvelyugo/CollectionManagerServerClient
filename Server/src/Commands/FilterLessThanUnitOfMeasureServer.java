@@ -45,4 +45,9 @@ public class FilterLessThanUnitOfMeasureServer implements ServerCommand {
     public String getDescription() {
         return "[KILOGRAMS METERS CENTIMETERS SQUARE_METERS GRAMS] Description: output elements whose unit Of Measure field value is less than the specified one";
     }
+
+    @Override
+    public String getName() {
+        return "Filter_less_than_unit_of_measure";
+    }
 }

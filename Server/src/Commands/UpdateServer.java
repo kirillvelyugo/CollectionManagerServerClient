@@ -40,4 +40,9 @@ public class UpdateServer implements ServerCommand {
     public String getDescription() {
         return "[id] Description: update the value of a collection item whose id is equal to the specified one";
     }
+
+    @Override
+    public String getName() {
+        return "Update";
+    }
 }

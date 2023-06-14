@@ -53,4 +53,9 @@ public class SaveServer implements ServerCommand {
     public String getDescription() {
         return "[] Description: save collection to file";
     }
+
+    @Override
+    public String getName() {
+        return "Save";
+    }
 }

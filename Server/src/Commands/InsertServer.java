@@ -36,4 +36,9 @@ public class InsertServer implements ServerCommand {
     public String getDescription() {
         return "[key] Description: add a new element with the specified key";
     }
+
+    @Override
+    public String getName() {
+        return "Insert";
+    }
 }

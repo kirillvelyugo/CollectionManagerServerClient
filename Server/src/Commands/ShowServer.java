@@ -23,4 +23,9 @@ public class ShowServer implements ServerCommand {
     public String getDescription() {
         return "[] Description: output to the standard output stream all the elements of the collection in a string representation";
     }
+
+    @Override
+    public String getName() {
+        return "Show";
+    }
 }

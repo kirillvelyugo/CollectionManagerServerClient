@@ -26,4 +26,9 @@ public class InfoServer implements ServerCommand {
     public String getDescription() {
         return "[] Description: show information about collection";
     }
+
+    @Override
+    public String getName() {
+        return "Info";
+    }
 }

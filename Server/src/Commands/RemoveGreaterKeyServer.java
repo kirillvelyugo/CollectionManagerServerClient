@@ -41,4 +41,9 @@ public class RemoveGreaterKeyServer implements ServerCommand {
     public String getDescription() {
         return "[key] Description: remove from the collection all items whose key exceeds the specified one";
     }
+
+    @Override
+    public String getName() {
+        return "Remove_greater_key";
+    }
 }

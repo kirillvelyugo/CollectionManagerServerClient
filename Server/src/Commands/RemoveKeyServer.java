@@ -50,4 +50,9 @@ public class RemoveKeyServer implements ServerCommand {
     public String getDescription() {
         return "[key] Description: remove an element from a collection by its key";
     }
+
+    @Override
+    public String getName() {
+        return "Remove_key";
+    }
 }

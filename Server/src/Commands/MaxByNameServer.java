@@ -43,4 +43,9 @@ public class MaxByNameServer implements ServerCommand {
     public String getDescription() {
         return "[] Description: output any object from the collection whose name field value is the maximum";
     }
+
+    @Override
+    public String getName() {
+        return "Max_by_name";
+    }
 }

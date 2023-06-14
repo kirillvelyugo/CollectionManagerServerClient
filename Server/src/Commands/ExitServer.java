@@ -17,4 +17,9 @@ public class ExitServer implements ServerCommand {
     public String getDescription() {
         return "[] Description: terminate the program (without saving to a file)";
     }
+
+    @Override
+    public String getName() {
+        return "Exit";
+    }
 }
