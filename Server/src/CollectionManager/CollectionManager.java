@@ -71,8 +71,21 @@ public class CollectionManager {
         return null;
     }
 
-    public void updateById (){
-        
+    public String getKeyById (int id ){
+        for (String key : this.products.keySet()){
+            Product product = this.getByKey(key);
+            if (product.getId() == id) return key;
+        }
+        return null;
+    }
+
+    /**
+     * Update element with spec. id
+     * @param key key
+     * @param product product
+     */
+    public void update(String key, Product product) {
+        this.products.replace(key, product);
     }
 
     /**

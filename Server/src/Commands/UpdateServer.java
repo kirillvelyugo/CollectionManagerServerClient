@@ -21,24 +21,16 @@ public class UpdateServer implements ServerCommand {
         Product productNew = clientCommand.getProduct();
         Integer id = clientCommand.getId();
 
-        Product productCurrent = collectionManager.findById(id);
+        String key = collectionManager.getKeyById(id);
 
-        if(productCurrent == null) {
+        if(key == null) {
             Response response = new Response(400);
             response.setMessage("No element with such id");
             return response;
         }
 
-        try {
-            productCurrent.setName(productNew.getName());
-            productCurrent.setCoordinates(productNew.getCoordinates());
-            productCurrent.setPrice(productNew.getPrice());
-            productCurrent.setUnitOfMeasure(productNew.getUnitOfMeasure());
-            productCurrent.setManufacturer(productNew.getManufacturer());
-            productCurrent.setPartNumber(productNew.getPartNumber());
-        } catch (InvalidValue ignored){
-
-        }
+        productNew.setId(id);
+        collectionManager.update(key, productNew);
 
         return new Response(200);
     }

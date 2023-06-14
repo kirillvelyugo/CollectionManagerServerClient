@@ -17,7 +17,7 @@ import java.time.format.DateTimeFormatter;
 @XmlAccessorType(XmlAccessType.NONE)
 public class Product implements Comparable<Product>, Serializable {
     @XmlElement(name = "id", required = true)
-    final private Integer id; // Filed can't be null, Value of field should be grader than 0, value of field should be unique and generate automatic
+    private Integer id; // Filed can't be null, Value of field should be grader than 0, value of field should be unique and generate automatic
     @XmlElement(name = "name", required = true)
     private String name; // Filed can't be null, and String shouldn't be empty
     @XmlElement(name = "coordinates")
@@ -79,7 +79,8 @@ public class Product implements Comparable<Product>, Serializable {
      * Set Id
      * @param id id
      */
-    private void setId(Integer id) {
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     /**
@@ -120,7 +121,6 @@ public class Product implements Comparable<Product>, Serializable {
      * @throws InvalidValue if partNumber is null
      */
     public void setPartNumber(String partNumber) throws InvalidValue {
-//        if (partNumber == null) {throw new InvalidValue("partNumber shouldn't be null");}
         this.partNumber = partNumber;
     }
 
@@ -130,7 +130,6 @@ public class Product implements Comparable<Product>, Serializable {
      * @throws InvalidValue if unitOfMeasure is null
      */
     public void setUnitOfMeasure(UnitOfMeasure unitOfMeasure) throws InvalidValue {
-//        if (unitOfMeasure == null) {throw new InvalidValue("unitOfMeasure shouldn't be null");}
         this.unitOfMeasure = unitOfMeasure;
     }
 

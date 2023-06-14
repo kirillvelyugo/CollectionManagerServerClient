@@ -32,6 +32,8 @@ public class UpdateClient implements ClientCommand {
 
     @Override
     public void prepareRequest(String[] args) throws WrongArguments {
+        if (args.length < 2) throw new WrongArguments("Not enough arguments");
+
         try {
             this.id = Integer.parseInt(args[1]);
         } catch (NumberFormatException e){
