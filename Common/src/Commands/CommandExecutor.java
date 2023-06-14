@@ -13,7 +13,7 @@ public class CommandExecutor {
         this.commands.put("show", new ShowClient());
         this.commands.put("insert", new InsertClient());
         this.commands.put("update", new UpdateClient());
-        this.commands.put("remove_key", new RemoveLowerKeyClient());
+        this.commands.put("remove_key", new RemoveKeyClient());
         this.commands.put("clear", new ClearClient());
         this.commands.put("save", new SaveClient());
         this.commands.put("execute_script", new ExecuteScriptClient());

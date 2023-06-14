@@ -22,7 +22,7 @@ public class CommandExecutor {
         this.commands.put(ShowClient.class, new ShowServer(collectionManager));
         this.commands.put(InsertClient.class, new InsertServer(collectionManager));
         this.commands.put(UpdateClient.class, new UpdateServer(collectionManager));
-        this.commands.put(RemoveKeyClient.class, new RemoveKeyServer());
+        this.commands.put(RemoveKeyClient.class, new RemoveKeyServer(collectionManager));
         this.commands.put(ClearClient.class, new ClearServer(collectionManager));
         this.commands.put(SaveClient.class, new SaveServer());
         this.commands.put(ExecuteScriptClient.class, new ExecuteScriptServer());

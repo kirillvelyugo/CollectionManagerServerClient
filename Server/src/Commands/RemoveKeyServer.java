@@ -1,5 +1,6 @@
 package Commands;
 
+import CollectionManager.CollectionManager;
 import Utils.Response;
 import Utils.ResponseCodes;
 
@@ -24,9 +25,24 @@ public class RemoveKeyServer implements ServerCommand {
 //        System.out.println("--Remove successfully--");
 //    }
 
+    private CollectionManager collectionManager;
+
+    public RemoveKeyServer (CollectionManager collectionManager){
+        this.collectionManager = collectionManager;
+    }
+
     @Override
     public Response execute(ClientCommand command) {
-        System.out.println("RemoveKey completed");
+        RemoveKeyClient removeKeyClient = (RemoveKeyClient) command;
+        String key = removeKeyClient.getKey();
+        Response response = new Response();
+
+        if (!collectionManager.containsKey(key)){
+            response.setResponseCode(ResponseCodes.OK_WITH_MESSAGE);
+            response.setMessage("no element with this key in the collection");
+            return response;
+        }
+        collectionManager.removeKey(removeKeyClient.getKey());
         return new Response(ResponseCodes.OK);
     }
 
