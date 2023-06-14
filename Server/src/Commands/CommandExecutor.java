@@ -32,7 +32,7 @@ public class CommandExecutor {
         this.commands.put(RemoveLowerKeyClient.class, new RemoveLowerKeyServer());
         this.commands.put(RemoveAnyByPriceClient.class, new RemoveAnyByPriceServer(collectionManager));
         this.commands.put(MaxByNameClient.class, new MaxByNameServer(collectionManager));
-        this.commands.put(FilterLessThanUnitOfMeasureClient.class, new FilterLessThanUnitOfMeasureServer());
+        this.commands.put(FilterLessThanUnitOfMeasureClient.class, new FilterLessThanUnitOfMeasureServer(collectionManager));
     }
 
     public Response doCommand (ClientCommand command){

@@ -1,44 +1,47 @@
 package Commands;
 
+import Collection.Product;
+import CollectionManager.CollectionManager;
 import Utils.Response;
 import Utils.ResponseCodes;
+
+import java.util.ArrayList;
+import java.util.Set;
 
 /**
  * Class output elements whose unit Of Measure field value is less than the specified one
  */
 public class FilterLessThanUnitOfMeasureServer implements ServerCommand {
-//    private final CollectionManager collectionManager;
-//
-//    public FilterLessThanUnitOfMeasureServer(CollectionManager collectionManager) {
-//        this.collectionManager = collectionManager;
-//    }
-//
-//    @Override
-//    public void execute(String[] args) throws WrongArguments {
-//        if (args.length < 2) throw new WrongArguments("Not enough arguments");
-//        UnitOfMeasure bound;
-//        try {
-//            bound = UnitOfMeasure.valueOf(args[1].toUpperCase());
-//        }
-//        catch (IllegalArgumentException e){
-//            throw new WrongArguments("No such unit of measure");
-//        }
-//
-//        Set<String> keyset = collectionManager.getKeySet();
-//        for(String key : keyset){
-//            if (collectionManager.getByKey(key).getUnitOfMeasure() != null){
-//                if (collectionManager.getByKey(key).getUnitOfMeasure().compareTo(bound) < 0) {
-//                    System.out.println(collectionManager.getByKey(key));
-//                }
-//            }
-//        }
-//
-//    }
+    private CollectionManager collectionManager;
+
+    public FilterLessThanUnitOfMeasureServer(CollectionManager collectionManager) {
+        this.collectionManager = collectionManager;
+    }
 
     @Override
     public Response execute(ClientCommand command) {
-        System.out.println("FilterLessThanUnitOfMeasure completed");
-        return new Response(ResponseCodes.OK);
+        FilterLessThanUnitOfMeasureClient filterLessThanUnitOfMeasureClient = (FilterLessThanUnitOfMeasureClient) command;
+        Response response = new Response();
+        ArrayList<Product> arrayList = new ArrayList<>();
+
+        Set<String> keyset = collectionManager.getKeySet();
+        for(String key : keyset){
+            if (collectionManager.getByKey(key).getUnitOfMeasure() != null){
+                if (collectionManager.getByKey(key).getUnitOfMeasure().compareTo(filterLessThanUnitOfMeasureClient.getBound()) < 0) {
+                    arrayList.add(collectionManager.getByKey(key));
+                }
+            }
+        }
+
+        if (arrayList.size() > 0){
+            response.setPayload(arrayList);
+            response.setResponseCode(ResponseCodes.OK);
+        }else {
+            response.setMessage(" No such elements");
+            response.setResponseCode(ResponseCodes.OK_WITH_MESSAGE);
+        }
+
+        return response;
     }
 
     @Override
