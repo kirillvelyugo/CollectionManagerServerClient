@@ -9,7 +9,7 @@ public class CommandExecutor {
         this.commands = new HashMap<>();
 
         this.commands.put("help", new HelpClient());
-        this.commands.put("info", new InsertClient());
+        this.commands.put("info", new InfoClient());
         this.commands.put("show", new ShowClient());
         this.commands.put("insert", new InsertClient());
         this.commands.put("update", new UpdateClient());

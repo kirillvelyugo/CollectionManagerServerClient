@@ -18,7 +18,7 @@ public class CommandExecutor {
         this.commands = new HashMap<>();
 
         this.commands.put(HelpClient.class, new HelpServer());
-        this.commands.put(InfoClient.class, new InfoServer());
+        this.commands.put(InfoClient.class, new InfoServer(collectionManager));
         this.commands.put(ShowClient.class, new ShowServer(collectionManager));
         this.commands.put(InsertClient.class, new InsertServer(collectionManager));
         this.commands.put(UpdateClient.class, new UpdateServer(collectionManager));

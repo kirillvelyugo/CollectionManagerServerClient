@@ -1,5 +1,6 @@
 package Commands;
 
+import CollectionManager.CollectionManager;
 import Utils.Response;
 import Utils.ResponseCodes;
 
@@ -7,21 +8,18 @@ import Utils.ResponseCodes;
  * Info command. Prints information about collection
  */
 public class InfoServer implements ServerCommand {
-//    private final CollectionManager collectionManager;
-//
-//    public InfoServer(CollectionManager collectionManager) {
-//        this.collectionManager = collectionManager;
-//    }
-//
-//    @Override
-//    public void execute(String[] args) throws WrongArguments {
-//        System.out.println(collectionManager.getInfo());
-//    }
+    private CollectionManager collectionManager;
+
+    public InfoServer (CollectionManager collectionManager){
+        this.collectionManager = collectionManager;
+    }
 
     @Override
     public Response execute(ClientCommand command) {
-        System.out.println("Info completed");
-        return new Response(ResponseCodes.OK);
+        Response response = new Response();
+        response.setPayload(collectionManager.getInfo());
+        response.setResponseCode(ResponseCodes.OK);
+        return response;
     }
 
     @Override
