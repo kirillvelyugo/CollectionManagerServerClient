@@ -1,39 +1,43 @@
 package Commands;
 
+import CollectionManager.CollectionManager;
 import Utils.Response;
 import Utils.ResponseCodes;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Class remove all items from the collection whose key is less than the specified one
  */
 public class RemoveLowerKeyServer implements ServerCommand {
-//    private final CollectionManager collectionManager;
-//
-//    public RemoveLowerKeyServer(CollectionManager collectionManager) {
-//        this.collectionManager = collectionManager;
-//    }
-//
-//    @Override
-//    public void execute(String[] args) throws WrongArguments {
-//        if (args.length < 2) throw new WrongArguments("Not enough arguments");
-//
-//        int counter = 0;
-//        Set<String> keyset = collectionManager.getKeySet();
-//        Set<String> toRemove = new HashSet<>();
-//        for(String key : keyset){
-//            if (key.compareTo(args[1]) < 0){
-//                toRemove.add(key);
-//                counter += 1;
-//            }
-//        }
-//        collectionManager.getKeySet().removeAll(toRemove);
-//        System.out.println("--Removed " + counter + " elements--");
-//    }
+    private CollectionManager collectionManager;
+
+    public RemoveLowerKeyServer(CollectionManager collectionManager) {
+        this.collectionManager = collectionManager;
+    }
 
     @Override
     public Response execute(ClientCommand command) {
-        System.out.println("RemoveLowerKey completed");
-        return new Response(ResponseCodes.OK);
+        RemoveLowerKeyClient removeLowerKeyClient = (RemoveLowerKeyClient) command;
+        String key = removeLowerKeyClient.getKey();
+
+        int counter = 0;
+        Set<String> keyset = collectionManager.getKeySet();
+        Set<String> toRemove = new HashSet<>();
+        for(String k : keyset){
+            if (k.compareTo(key) < 0){
+                toRemove.add(k);
+                counter += 1;
+            }
+        }
+        collectionManager.getKeySet().removeAll(toRemove);
+
+        Response response = new Response();
+        response.setResponseCode(ResponseCodes.OK);
+        response.setPayload(counter);
+
+        return response;
     }
 
     @Override
