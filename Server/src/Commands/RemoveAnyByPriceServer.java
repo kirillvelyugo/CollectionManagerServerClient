@@ -1,26 +1,20 @@
 package Commands;
 
+import CollectionManager.CollectionManager;
 import Utils.Response;
 import Utils.ResponseCodes;
 
 public class RemoveAnyByPriceServer implements ServerCommand {
-//    private final CollectionManager collectionManager;
-//
-//    public RemoveAnyByPriceServer(CollectionManager collectionManager) {
-//        this.collectionManager = collectionManager;
-//    }
+    private CollectionManager collectionManager;
+
+    public RemoveAnyByPriceServer(CollectionManager collectionManager) {
+        this.collectionManager = collectionManager;
+    }
 //
 //    @Override
 //    public void execute(String[] args) throws WrongArguments {
 //
-//        if (args.length < 2) throw new WrongArguments("Not enough arguments");
 //
-//        double price;
-//        try {
-//            price = Double.parseDouble(args[1]);
-//        } catch (NumberFormatException e){
-//            throw new WrongArguments("Price is not Double");
-//        }
 //
 //        for(String key : collectionManager.getKeySet()){
 //            if (collectionManager.getByKey(key).getPrice().equals(price)){
@@ -34,8 +28,21 @@ public class RemoveAnyByPriceServer implements ServerCommand {
 
     @Override
     public Response execute(ClientCommand command) {
-        System.out.println("RemoveAnyByPrice completed");
-        return new Response(ResponseCodes.OK);
+        RemoveAnyByPriceClient removeAnyByPriceClient = (RemoveAnyByPriceClient) command;
+        Response response = new Response();
+
+        for(String key : collectionManager.getKeySet()){
+            if (collectionManager.getByKey(key).getPrice().equals(removeAnyByPriceClient.getPrice())){
+                collectionManager.removeKey(key);
+                response.setResponseCode(ResponseCodes.OK);
+                return response;
+            }
+        }
+
+        response.setMessage(" Nothing to remove");
+        response.setResponseCode(ResponseCodes.OK_WITH_MESSAGE);
+
+        return response;
     }
 
     @Override

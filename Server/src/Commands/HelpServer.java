@@ -19,11 +19,12 @@ public class HelpServer implements ServerCommand {
     public Response execute(ClientCommand command) {
         StringBuilder res = new StringBuilder();
         for(Type el : this.commands.keySet()){
-            res.append(this.commands.get(el).getName()).append(this.commands.get(el).getDescription()).append("\n");
+//            res.append(this.commands.get(el).getName()).append(this.commands.get(el).getDescription()).append("\n");
 //            if use this -- help returns null
-//            res.append(String.format("%-35s - %s\n", this.commands.get(el).getName(), this.commands.get(el).getDescription()));
+            res.append(String.format("%-35s - %s\n", this.commands.get(el).getName(), this.commands.get(el).getDescription()));
         }
         Response response = new Response(ResponseCodes.OK);
+//        System.out.println(res);
         response.setPayload(res.toString());
         return response;
     }

@@ -30,7 +30,7 @@ public class UDPClient {
 
     public Response readResponse() throws IOException, ClassNotFoundException {
 
-        byte[] buffered = new byte[2048];
+        byte[] buffered = new byte[16384];
         DatagramPacket datagramPacket = new DatagramPacket(buffered, buffered.length);
 
         datagramSocket.receive(datagramPacket);

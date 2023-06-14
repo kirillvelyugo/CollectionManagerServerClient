@@ -28,7 +28,7 @@ public class UDPServer {
     }
 
     public DatagramPacket readRequest () throws IOException {
-        byte[] buffered = new byte[2048];
+        byte[] buffered = new byte[16348];
         DatagramPacket datagramPacket = new DatagramPacket(buffered, buffered.length);
 
         datagramSocket.receive(datagramPacket);
