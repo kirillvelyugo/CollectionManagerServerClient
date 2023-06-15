@@ -29,18 +29,22 @@ public class UDPClient {
     }
 
     public Response readResponse() throws IOException, ClassNotFoundException {
-
         byte[] buffered = new byte[16384];
         DatagramPacket datagramPacket = new DatagramPacket(buffered, buffered.length);
 
-        datagramSocket.receive(datagramPacket);
-        byte[] data = datagramPacket.getData();
+        datagramSocket.setSoTimeout(1000);
+        try {
+            datagramSocket.receive(datagramPacket);
+            byte[] data = datagramPacket.getData();
 
-        ByteArrayInputStream bais = new ByteArrayInputStream(data);
-        ObjectInputStream ois = new ObjectInputStream(bais);
+            ByteArrayInputStream bais = new ByteArrayInputStream(data);
+            ObjectInputStream ois = new ObjectInputStream(bais);
 
-        Response response = (Response) ois.readObject();
-        return response;
+            Response response = (Response) ois.readObject();
+            return response;
+        } catch (SocketTimeoutException e) {
+            return null;
+        }
     }
 
     public void interactiveMode (){
@@ -64,7 +68,10 @@ public class UDPClient {
                     clientCommand.prepareRequest(args);
 
                     this.sendRequest(clientCommand);
-                    clientCommand.acceptResponse(this.readResponse());
+                    Response response = this.readResponse();
+                    if (response != null) clientCommand.acceptResponse(response);
+                    else System.out.println("Cannot get connection with Server");
+
                 } catch (WrongArguments e){
                     System.out.println("Incorrect arguments. Try again. " + e.getMessage());
                 } catch (IOException | ClassNotFoundException e){
