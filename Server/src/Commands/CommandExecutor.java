@@ -26,7 +26,6 @@ public class CommandExecutor {
         this.commands.put(ClearClient.class, new ClearServer(collectionManager));
         this.commands.put(SaveClient.class, new SaveServer());
         this.commands.put(ExecuteScriptClient.class, new ExecuteScriptServer());
-        this.commands.put(ExitClient.class, new ExitServer());
         this.commands.put(ReplaceIfGreaterClient.class, new ReplaceIfGreaterServer(collectionManager));
         this.commands.put(RemoveGreaterKeyClient.class, new RemoveGreaterKeyServer(collectionManager));
         this.commands.put(RemoveLowerKeyClient.class, new RemoveLowerKeyServer(collectionManager));

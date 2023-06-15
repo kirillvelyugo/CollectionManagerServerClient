@@ -6,6 +6,7 @@ import java.io.*;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
+import java.util.Scanner;
 
 public class UDPServer {
     private int serverPort;
@@ -30,7 +31,6 @@ public class UDPServer {
     public DatagramPacket readRequest () throws IOException {
         byte[] buffered = new byte[16348];
         DatagramPacket datagramPacket = new DatagramPacket(buffered, buffered.length);
-
         datagramSocket.receive(datagramPacket);
 
         return datagramPacket;
@@ -58,7 +58,6 @@ public class UDPServer {
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
-
         }
     }
 

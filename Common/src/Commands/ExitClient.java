@@ -7,7 +7,6 @@ import Utils.Response;
  * Exit command. Stops program execution without saving any data to file
  */
 public class ExitClient implements ClientCommand {
-
     @Override
     public ExitClient getNewObject(){
         return new ExitClient();
@@ -20,7 +19,8 @@ public class ExitClient implements ClientCommand {
 
     @Override
     public void prepareRequest(String[] args) throws WrongArguments {
-
+        System.out.println("--Exit. See you later.--");
+        System.exit(0);
     }
 
     @Override
