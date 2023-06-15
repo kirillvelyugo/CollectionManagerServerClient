@@ -4,6 +4,9 @@ import CollectionManager.CollectionManager;
 import Utils.Response;
 import Utils.ResponseCodes;
 
+/**
+ * Show Command. Show all commands
+ */
 public class ShowServer implements ServerCommand {
     private CollectionManager collectionManager;
 

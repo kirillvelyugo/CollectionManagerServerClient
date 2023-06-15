@@ -4,6 +4,9 @@ import CollectionManager.CollectionManager;
 import Utils.Response;
 import Utils.ResponseCodes;
 
+/**
+ * Remove_any_by_price command
+ */
 public class RemoveAnyByPriceServer implements ServerCommand {
     private CollectionManager collectionManager;
 

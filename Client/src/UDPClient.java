@@ -8,16 +8,30 @@ import java.net.*;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-
+/**
+ * Class for connecting with Server
+ */
 public class UDPClient {
     private final DatagramSocket datagramSocket;
     private final InetSocketAddress inetSocketAddress;
 
+    /**
+     * Basic constructor for UDPClient
+     * @param address server addres
+     * @param port server port
+     * @throws UnknownHostException
+     * @throws SocketException
+     */
     public UDPClient(String address, int port) throws UnknownHostException, SocketException {
         this.inetSocketAddress = new InetSocketAddress(InetAddress.getByName(address), port);
         this.datagramSocket = new DatagramSocket();
     }
 
+    /**
+     * Method which send Datagram to Server
+     * @param command executable command
+     * @throws IOException
+     */
     public void sendRequest(ClientCommand command) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream(2048);
         ObjectOutputStream oos = new ObjectOutputStream(baos);
@@ -28,6 +42,12 @@ public class UDPClient {
         datagramSocket.send(packet);
     }
 
+    /**
+     * Method which get responde from Server
+     * @return Response response from Server
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     public Response readResponse() throws IOException, ClassNotFoundException {
         byte[] buffered = new byte[16384];
         DatagramPacket datagramPacket = new DatagramPacket(buffered, buffered.length);
@@ -47,6 +67,9 @@ public class UDPClient {
         }
     }
 
+    /**
+     * Interactive mode on Client side
+     */
     public void interactiveMode (){
         CommandExecutor commandExecutor = new CommandExecutor();
 
