@@ -1,3 +1,5 @@
+package Connection;
+
 import Commands.ClientCommand;
 import Commands.CommandExecutor;
 import Expections.WrongArguments;
@@ -16,8 +18,8 @@ public class UDPClient {
     private final InetSocketAddress inetSocketAddress;
 
     /**
-     * Basic constructor for UDPClient
-     * @param address server addres
+     * Basic constructor for Connection.UDPClient
+     * @param address server address
      * @param port server port
      * @throws UnknownHostException
      * @throws SocketException
@@ -43,7 +45,7 @@ public class UDPClient {
     }
 
     /**
-     * Method which get responde from Server
+     * Method which get response from Server
      * @return Response response from Server
      * @throws IOException
      * @throws ClassNotFoundException
@@ -71,7 +73,7 @@ public class UDPClient {
      * Interactive mode on Client side
      */
     public void interactiveMode (){
-        CommandExecutor commandExecutor = new CommandExecutor();
+        CommandExecutor commandExecutor = new CommandExecutor(this);
 
         while (true){
             Scanner console = new Scanner(System.in);
@@ -99,6 +101,7 @@ public class UDPClient {
                     System.out.println("Incorrect arguments. Try again. " + e.getMessage());
                 } catch (IOException | ClassNotFoundException e){
                     System.out.println(e.getMessage());
+                    e.printStackTrace();
                 }
             }
             catch (NoSuchElementException e){

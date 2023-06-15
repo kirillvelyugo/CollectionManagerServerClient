@@ -6,6 +6,7 @@ import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import java.util.UUID;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
@@ -37,8 +38,7 @@ public class Product implements Comparable<Product>, Serializable {
     private static Integer tmp_id = 1;
 
     public Product() {
-        this.id = tmp_id;
-        tmp_id++;
+        this.id = Math.toIntExact(UUID.randomUUID().getMostSignificantBits() & Integer.MAX_VALUE);
 
         creationDate = ZonedDateTime.now();
     }

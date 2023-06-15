@@ -1,11 +1,13 @@
 package Commands;
 
+import Connection.UDPClient;
+
 import java.util.HashMap;
 
 public class CommandExecutor {
     private final HashMap<String, ClientCommand> commands;
 
-    public CommandExecutor () {
+    public CommandExecutor(UDPClient udpClient) {
         this.commands = new HashMap<>();
 
         this.commands.put("help", new HelpClient());
@@ -15,7 +17,7 @@ public class CommandExecutor {
         this.commands.put("update", new UpdateClient());
         this.commands.put("remove_key", new RemoveKeyClient());
         this.commands.put("clear", new ClearClient());
-        this.commands.put("execute_script", new ExecuteScriptClient());
+        this.commands.put("execute_script", new ExecuteScriptClient(this.commands, udpClient));
         this.commands.put("exit", new ExitClient());
         this.commands.put("replace_if_greater", new ReplaceIfGreaterClient());
         this.commands.put("remove_greater_key", new RemoveGreaterKeyClient());

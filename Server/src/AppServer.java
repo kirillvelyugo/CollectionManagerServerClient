@@ -20,7 +20,7 @@ public class AppServer {
             path = Paths.get(path_str);
         }
 
-        CollectionManager collectionManager = new CollectionManager(null);
+        CollectionManager collectionManager = new CollectionManager(path);
         collectionManager.load(path);
 
         CommandExecutor commandExecutor = new CommandExecutor(collectionManager);
