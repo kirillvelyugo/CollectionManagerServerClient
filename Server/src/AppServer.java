@@ -1,7 +1,9 @@
 import CollectionManager.CollectionManager;
 import Commands.CommandExecutor;
+import CommandsServer.ServerCLICommands;
 
 import java.io.*;
+import java.util.concurrent.Executors;
 
 public class AppServer {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
@@ -18,7 +20,11 @@ public class AppServer {
         CommandExecutor commandExecutor = new CommandExecutor(collectionManager);
 
         UDPServer udpServer = new UDPServer(7654);
+
+        Executors.newSingleThreadExecutor().execute(new CommandsServer.CommandExecutor(collectionManager));
+
         udpServer.interactiveMode(commandExecutor);
+
 //        DatagramPacket requestPacket = udpServer.readRequest();
 //        ClientCommand clientCommand = (ClientCommand) udpServer.getRequest(requestPacket);
 //

@@ -15,7 +15,6 @@ public class CommandExecutor {
         this.commands.put("update", new UpdateClient());
         this.commands.put("remove_key", new RemoveKeyClient());
         this.commands.put("clear", new ClearClient());
-        this.commands.put("save", new SaveClient());
         this.commands.put("execute_script", new ExecuteScriptClient());
         this.commands.put("exit", new ExitClient());
         this.commands.put("replace_if_greater", new ReplaceIfGreaterClient());
