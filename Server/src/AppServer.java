@@ -3,20 +3,24 @@ import Commands.CommandExecutor;
 import CommandsServer.ServerCLICommands;
 
 import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.concurrent.Executors;
 
 public class AppServer {
-    public static void main(String[] args) throws IOException, ClassNotFoundException {
-        // endless command reading
-        // endless connection establish
-        // parsing arguments
-        // executing command
-        // sending response
-
-        // if server unavailable
-        // error handing
+    public static void main(String[] args) throws IOException {
+        Path path = null;
+        String path_str = System.getenv("path");
+        if(path_str == null){
+            System.out.println("No path specified. Data not loaded.");
+        }
+        else {
+            path = Paths.get(path_str);
+        }
 
         CollectionManager collectionManager = new CollectionManager(null);
+        collectionManager.load(path);
+
         CommandExecutor commandExecutor = new CommandExecutor(collectionManager);
 
         UDPServer udpServer = new UDPServer(7654);
@@ -24,13 +28,5 @@ public class AppServer {
         Executors.newSingleThreadExecutor().execute(new CommandsServer.CommandExecutor(collectionManager));
 
         udpServer.interactiveMode(commandExecutor);
-
-//        DatagramPacket requestPacket = udpServer.readRequest();
-//        ClientCommand clientCommand = (ClientCommand) udpServer.getRequest(requestPacket);
-//
-//        System.out.println(clientCommand);
-//
-//        Response response = new Response(1);
-//        udpServer.sendResponse(response, requestPacket);
     }
 }
