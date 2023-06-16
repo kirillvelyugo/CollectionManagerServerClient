@@ -1,6 +1,7 @@
 package CollectionManager;
 
 import Collection.Product;
+import Expections.InvalidValue;
 import Run.DatabaseConnector;
 import Utils.Wrapper;
 import jakarta.xml.bind.JAXBContext;
@@ -12,6 +13,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
+import java.sql.SQLException;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -30,6 +32,18 @@ public class CollectionManager {
     public CollectionManager (DatabaseConnector databaseConnector){
         this.databaseConnector = databaseConnector;
         products = new LinkedHashMap<>();
+        try {
+            fillFromDB();
+        } catch (SQLException | InvalidValue e){
+            e.printStackTrace();
+        }
+    }
+
+    private void fillFromDB() throws SQLException, InvalidValue {
+        ArrayList<String> keySet = databaseConnector.getProductsKeys();
+        for (String key : keySet){
+            products.put(key, databaseConnector.readProduct(key));
+        }
     }
 
     /**
@@ -38,7 +52,13 @@ public class CollectionManager {
      * @param obj Object, which have to add in collection
      */
     public void addObj (String key, Product obj){
-        products.put(key, obj);
+        try {
+            int id = databaseConnector.addProduct(obj, key);
+            obj.setId(id);
+            products.put(key, obj);
+        } catch (SQLException e){
+            System.out.println("Error while saving!");
+        }
     }
 
     /**
@@ -46,7 +66,12 @@ public class CollectionManager {
      * @param key Key
      */
     public void removeKey (String key){
-        products.remove(key);
+        try {
+            databaseConnector.removeProduct(key);
+            products.remove(key);
+        } catch (SQLException e){
+            System.out.println("Error while removing!");
+        }
     }
 
     /**
@@ -86,7 +111,12 @@ public class CollectionManager {
      * @param product product
      */
     public void update(String key, Product product) {
-        this.products.replace(key, product);
+        try {
+            databaseConnector.updateProduct(product, key);
+            this.products.replace(key, product);
+        } catch (SQLException e){
+            System.out.println("Error while updating!");
+        }
     }
 
     /**
@@ -101,7 +131,13 @@ public class CollectionManager {
      * Clear collection
      */
     public void clear (){
-        this.products.clear();
+        try {
+            databaseConnector.clearDatabase();
+            this.products.clear();
+        } catch (SQLException e){
+            System.out.println("Error while clearing!");
+        }
+
     }
 
     /**
