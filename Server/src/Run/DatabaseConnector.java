@@ -160,10 +160,10 @@ public class DatabaseConnector {
         return resultSet.getInt("id");
     }
 
-    public Product readProduct(int id) throws SQLException, InvalidValue {
+    public Product readProduct(String key) throws SQLException, InvalidValue {
         Statement statement = this.connection.createStatement();
 
-        String sql_command = String.format("SELECT * FROM product WHERE id = %s", id);
+        String sql_command = String.format("SELECT * FROM product WHERE key = '%s'", key);
         ResultSet resultSet = statement.executeQuery(sql_command);
 
         resultSet.next();
@@ -181,11 +181,11 @@ public class DatabaseConnector {
         return product;
     }
 
-    public int addProduct(Product product) throws SQLException {
+    public int addProduct(Product product, String key) throws SQLException {
         Statement statement = this.connection.createStatement();
 
-        String sql_command = String.format("INSERT INTO product(name, price, coordinates_id, manufacturer_id, part_number, creation_date, unit_of_measure_id) VALUES('%s', '%s', %d, %d, '%s', '%s', %d)",
-                product.getName(), product.getPrice(), this.addCoordinates(product.getCoordinates()), this.addOrganization(product.getManufacturer()),
+        String sql_command = String.format("INSERT INTO product(key, name, price, coordinates_id, manufacturer_id, part_number, creation_date, unit_of_measure_id) VALUES('%s', '%s', '%s', %d, %d, '%s', '%s', %d)",
+                key, product.getName(), product.getPrice(), this.addCoordinates(product.getCoordinates()), this.addOrganization(product.getManufacturer()),
                 product.getPartNumber(), product.getCreationDate().toLocalDateTime(), this.getUnitOfMeasureID(product.getUnitOfMeasure()));
         statement.executeUpdate(sql_command);
 
