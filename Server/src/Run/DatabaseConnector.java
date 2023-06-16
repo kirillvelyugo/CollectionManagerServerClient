@@ -258,7 +258,6 @@ public class DatabaseConnector {
 
         String sql_command = "SELECT id FROM product";
         ResultSet resultSet = statement.executeQuery(sql_command);
-        this.connection.commit();
 
         ArrayList<Integer> ids = new ArrayList<Integer>();
 
@@ -267,6 +266,26 @@ public class DatabaseConnector {
         }
 
         return ids;
+    }
+
+    /**
+     * Get all the products keys in database
+     * @return keys ArrayList
+     * @throws SQLException when connection issues
+     */
+    public ArrayList<String> getProductsKeys() throws SQLException {
+        Statement statement = this.connection.createStatement();
+
+        String sql_command = "SELECT key FROM product";
+        ResultSet resultSet = statement.executeQuery(sql_command);
+
+        ArrayList<String> keys = new ArrayList<String>();
+
+        while (resultSet.next()) {
+            keys.add(resultSet.getString("key"));
+        }
+
+        return keys;
     }
 
 
