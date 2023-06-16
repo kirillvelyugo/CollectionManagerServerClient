@@ -243,16 +243,18 @@ public class DatabaseConnector {
     public void clearDatabase() throws SQLException {
         Statement statement = this.connection.createStatement();
 
+        String sql_command = "DELETE FROM product";
+        statement.executeUpdate(sql_command);
 
-        String sql_command = "DELETE FROM address";
+        sql_command = "DELETE FROM organization";
+        statement.executeUpdate(sql_command);
+
+        sql_command = "DELETE FROM address";
         statement.executeUpdate(sql_command);
 
         sql_command = "DELETE FROM coordinates";
         statement.executeUpdate(sql_command);
-
-        sql_command = "DELETE FROM product";
-        statement.executeUpdate(sql_command);
-
+        
         System.out.println("Collection cleared");
     }
 
