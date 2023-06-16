@@ -182,14 +182,33 @@ public class DatabaseConnector {
     }
 
     public int addProduct(Product product, String key) throws SQLException {
+        this.updateProduct(product, key); // if already exists
         Statement statement = this.connection.createStatement();
 
-        String sql_command = String.format("INSERT INTO product(key, name, price, coordinates_id, manufacturer_id, part_number, creation_date, unit_of_measure_id) VALUES('%s', '%s', '%s', %d, %d, '%s', '%s', %d)",
+        // if not exists
+        String sql_command = String.format("INSERT INTO product(key, name, price, coordinates_id, manufacturer_id, part_number, creation_date, unit_of_measure_id) SELECT '%s', '%s', '%s', %d, %d, '%s', '%s', %d " +
+                        "WHERE NOT EXISTS (SELECT 1 FROM product WHERE key='%s')",
                 key, product.getName(), product.getPrice(), this.addCoordinates(product.getCoordinates()), this.addOrganization(product.getManufacturer()),
-                product.getPartNumber(), product.getCreationDate().toLocalDateTime(), this.getUnitOfMeasureID(product.getUnitOfMeasure()));
-        statement.executeUpdate(sql_command);
+                product.getPartNumber(), product.getCreationDate().toLocalDateTime(), this.getUnitOfMeasureID(product.getUnitOfMeasure()), key);
+        int numberAdded = statement.executeUpdate(sql_command);
+        
+        if (numberAdded != 0) return  this.getId("product");
 
-        return this.getId("product");
+        sql_command = String.format("SELECT id FROM product WHERE key = '%s'", key);
+        ResultSet resultSet = statement.executeQuery(sql_command);
+        resultSet.next();
+        return resultSet.getInt("id");
+        
+    }
+    
+    public void updateProduct(Product product, String key) throws SQLException {
+        Statement statement = this.connection.createStatement();
+
+        String sql_command = String.format("UPDATE product SET name = '%s', price = '%s', coordinates_id = %d, manufacturer_id = %d, part_number = '%s', unit_of_measure_id = %d WHERE key = '%s'",
+                product.getName(), product.getPrice(), this.addCoordinates(product.getCoordinates()), this.addOrganization(product.getManufacturer()),
+                product.getPartNumber(), this.getUnitOfMeasureID(product.getUnitOfMeasure()), key);
+
+        statement.executeUpdate(sql_command);
     }
 
     /**
