@@ -210,6 +210,14 @@ public class DatabaseConnector {
 
         statement.executeUpdate(sql_command);
     }
+    
+    public void removeProduct(String key) throws SQLException {
+        Statement statement = this.connection.createStatement();
+
+        String sql_command = String.format("DELETE FROM product WHERE key = '%s'", key);
+
+        statement.executeUpdate(sql_command);
+    }
 
     /**
      * Get id of last added element
