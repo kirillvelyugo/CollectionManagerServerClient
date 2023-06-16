@@ -17,29 +17,16 @@ import java.time.format.DateTimeFormatter;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 public class Product implements Comparable<Product>, Serializable {
-    @XmlElement(name = "id", required = true)
-    private Integer id; // Filed can't be null, Value of field should be grader than 0, value of field should be unique and generate automatic
-    @XmlElement(name = "name", required = true)
+    private Integer id = -1; // Filed can't be null, Value of field should be grader than 0, value of field should be unique and generate automatic
     private String name; // Filed can't be null, and String shouldn't be empty
-    @XmlElement(name = "coordinates")
     private Coordinates coordinates; // Field can be null
-    @XmlElement(name = "creation_date", required = true)
-    @XmlJavaTypeAdapter(DateTimeAdapter.class)
-    private java.time.ZonedDateTime creationDate; // Field can't be null, value generations automatic
-    @XmlElement(name = "price", required = true)
+    java.time.ZonedDateTime creationDate; // Field can't be null, value generations automatic
     private Double price; // Field can't be null, Value of field should be grader than 0
-    @XmlElement(name = "part_number")
     private String partNumber; // Field can be null
-    @XmlElement(name = "unit_of_measure")
     private UnitOfMeasure unitOfMeasure; // Field can be null
-    @XmlElement(name = "manufacturer")
     private Organization manufacturer; // Field can be null
-    @XmlElement(name = "tmp_id", required = true)
-    private static Integer tmp_id = 1;
 
     public Product() {
-        this.id = Math.toIntExact(UUID.randomUUID().getMostSignificantBits() & Integer.MAX_VALUE);
-
         creationDate = ZonedDateTime.now();
     }
 
@@ -75,6 +62,8 @@ public class Product implements Comparable<Product>, Serializable {
         return manufacturer;
     }
 
+
+
     /**
      * Set Id
      * @param id id
@@ -102,6 +91,14 @@ public class Product implements Comparable<Product>, Serializable {
     public void setCoordinates(Coordinates coordinates) throws InvalidValue {
         if (coordinates == null) {throw new InvalidValue("coordinates shouldn't be null");}
         this.coordinates = coordinates;
+    }
+
+    /**
+     * Set creation date
+     * @param creationDate coordinates of product
+     */
+    public void setCreationDate(ZonedDateTime creationDate) {
+        this.creationDate = creationDate;
     }
 
     /**

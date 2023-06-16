@@ -21,7 +21,6 @@ public class CommandExecutor implements Runnable{
         this.collectionManager = collectionManager;
         this.commands = new HashMap<>();
 
-        this.commands.put("save", new SaveCLIServer(collectionManager));
         this.commands.put("exit", new ExitCLIServer());
         this.commands.put("help", new HelpCLIServer(commands));
     }
