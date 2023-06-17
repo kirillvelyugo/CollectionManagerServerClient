@@ -6,6 +6,15 @@ public class UserData implements Serializable {
     private final String username;
     private final String password;
     private boolean toSignUp = false;
+    private int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public boolean isToSignUp() {
         return toSignUp;
@@ -28,4 +37,13 @@ public class UserData implements Serializable {
         return password;
     }
 
+    @Override
+    public String toString() {
+        return "UserData{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", toSignUp=" + toSignUp +
+                ", id=" + id +
+                '}';
+    }
 }

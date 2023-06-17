@@ -18,6 +18,7 @@ public class User {
     private String salt;
     private int id;
 
+
     private static String generateSalt(){
         int leftLimit = 97;
         int rightLimit = 122;
@@ -39,16 +40,16 @@ public class User {
         return this.passHash.equals(hash);
     }
 
-    public static boolean auth(UserData userData, DatabaseConnector databaseConnector){
+    public static User auth(UserData userData, DatabaseConnector databaseConnector){
         try {
             User user = databaseConnector.getUser(userData.getUsername());
-            if (user == null) return false;
+            if (user == null) return user;
 
-            if (user.validatePass(userData.getPassword())) return true;
+            if (user.validatePass(userData.getPassword())) return user;
 
-            return false; // not valid
+            return null; // not valid
         } catch (SQLException e){
-            return false;
+            return null;
         }
     }
 
@@ -56,7 +57,7 @@ public class User {
         UserData userData =  authRequest.getUserData();
         if (userData.isToSignUp()){
             try {
-                User user = User.createUser(userData);
+                User user = User.createNewUser(userData);
                 databaseConnector.addUser(user);
                 Response response = new Response(ResponseCodes.OK);
                 response.setPayload(AuthRequest.AuthStatus.SUCCESS);
@@ -112,7 +113,7 @@ public class User {
         return hashtext;
     }
 
-    private static User createUser(UserData userData){
+    private static User createNewUser(UserData userData){
         User user = new User();
         user.salt = generateSalt();
         user.passHash = user.getHash(userData.getPassword() + user.salt);

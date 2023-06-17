@@ -5,6 +5,7 @@ import Connection.AuthRequest;
 import Run.DatabaseConnector;
 import User.User;
 import Utils.Response;
+import Utils.ResponseCodes;
 import Utils.UserData;
 
 import java.io.*;
@@ -87,7 +88,18 @@ public class UDPServer {
                 if (request instanceof ClientCommand) {
                     ClientCommand command = (ClientCommand) request;
 
-                    Response response = commandExecutor.doCommand(command);
+                    // validate user
+                    Response response;
+                    User user = User.auth(command.getUserData(), databaseConnector);
+                    if (user != null)
+                    {
+                        command.getUserData().setId(user.getId());
+                        response = commandExecutor.doCommand(command);
+                    }
+                    else {
+                        response = new Response(ResponseCodes.ERROR);
+                        response.setMessage("User auth failed");
+                    }
 
                     this.sendResponse(response, datagramPacket);
                 }
