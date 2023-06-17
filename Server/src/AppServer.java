@@ -6,14 +6,22 @@ import Run.DatabaseConnector;
 import Utils.RequestPort;
 
 import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.SQLException;
+import java.util.Scanner;
 import java.util.concurrent.Executors;
 
 public class AppServer {
-    public static void main(String[] args) throws IOException, SQLException, InvalidValue {
+    public static void main(String[] args) throws IOException, SQLException {
 
-        DatabaseConnector databaseConnector = new DatabaseConnector("jdbc:postgresql://127.0.0.1:5432/products", "alexivanov", "");
+        // read database password from file
 
+        Path path = Paths.get("/home/studs/s367971/.pgpass");
+        Scanner scanner = new Scanner(path);
+        String pass = scanner.nextLine().split(":")[4];
+
+        DatabaseConnector databaseConnector = new DatabaseConnector("jdbc:postgresql://pg/studs", "s367971", pass);
 
         CollectionManager collectionManager = new CollectionManager(databaseConnector);
 
