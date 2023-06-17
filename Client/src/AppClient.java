@@ -1,7 +1,5 @@
-import Connection.AuthRequest;
 import Connection.UDPClient;
 import Utils.RequestPort;
-import Utils.Response;
 import Utils.UserData;
 
 import java.io.IOException;

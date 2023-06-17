@@ -1,7 +1,6 @@
 package Connection;
 
 import Utils.Response;
-import Utils.ResponseCodes;
 import Utils.UserData;
 
 import java.io.IOException;

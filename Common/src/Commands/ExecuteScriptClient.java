@@ -6,7 +6,6 @@ import Utils.Response;
 import Utils.UserData;
 
 import javax.naming.NoPermissionException;
-import java.beans.Transient;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,7 +23,7 @@ import java.util.Scanner;
 public class ExecuteScriptClient implements ClientCommand {
     HashMap<String, ClientCommand> commands;
     private final ArrayList<Integer> history;
-    transient private UDPClient udpClient;
+    transient private UDPClient udpClient; // to do not send to server
 
     public ExecuteScriptClient(HashMap<String, ClientCommand> commands, UDPClient udpClient) {
         this.commands = commands;

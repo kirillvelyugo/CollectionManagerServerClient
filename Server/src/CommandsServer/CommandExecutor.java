@@ -1,11 +1,7 @@
 package CommandsServer;
 
 import CollectionManager.CollectionManager;
-import Commands.*;
-import Expections.WrongArguments;
-import Utils.Response;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.NoSuchElementException;
 import java.util.Scanner;

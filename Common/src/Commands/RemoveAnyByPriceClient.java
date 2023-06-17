@@ -1,14 +1,11 @@
 package Commands;
 
 
-import Collection.Product;
 import Expections.WrongArguments;
 import Utils.Response;
 import Utils.ResponseCodes;
 import Utils.UserData;
 
-import java.util.LinkedHashMap;
-import java.util.Set;
 
 public class RemoveAnyByPriceClient implements ClientCommand {
     private double price;

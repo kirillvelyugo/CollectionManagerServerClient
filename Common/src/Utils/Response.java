@@ -1,6 +1,5 @@
 package Utils;
 
-import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 public class Response implements Serializable {

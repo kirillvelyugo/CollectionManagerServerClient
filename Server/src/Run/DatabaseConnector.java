@@ -4,7 +4,6 @@ import Collection.*;
 import Expections.InvalidValue;
 import User.User;
 
-import java.net.InetAddress;
 import java.sql.*;
 import java.time.ZoneId;
 import java.util.ArrayList;

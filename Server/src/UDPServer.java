@@ -1,12 +1,10 @@
 import Commands.ClientCommand;
 import Commands.CommandExecutor;
-import Commands.CommandMapper;
 import Connection.AuthRequest;
 import Run.DatabaseConnector;
 import User.User;
 import Utils.Response;
 import Utils.ResponseCodes;
-import Utils.UserData;
 
 import java.io.*;
 import java.net.DatagramPacket;

@@ -1,14 +1,11 @@
 package Commands;
 
 
-import Collection.Product;
 import Expections.WrongArguments;
 import Utils.Response;
 import Utils.ResponseCodes;
 import Utils.UserData;
 
-import java.util.LinkedHashMap;
-import java.util.Set;
 
 /**
  * Class output any object from the collection whose name field value is the maximum
