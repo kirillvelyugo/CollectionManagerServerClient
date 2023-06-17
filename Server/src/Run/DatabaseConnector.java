@@ -53,7 +53,7 @@ public class DatabaseConnector {
     public int addAddress(Address address) throws SQLException {
         Statement statement = this.connection.createStatement();
 
-        String sql_command = String.format("INSERT INTO address(zip_code) VALUES(%s) ", address.getZipCode());
+        String sql_command = String.format("INSERT INTO address(zip_code) VALUES('%s') ", address.getZipCode());
 
         statement.executeUpdate(sql_command);
 
@@ -63,7 +63,7 @@ public class DatabaseConnector {
     public Coordinates readCoordinates(int id) throws SQLException, InvalidValue {
         Statement statement = this.connection.createStatement();
 
-        String sql_command = String.format("SELECT * FROM coordinates WHERE id = %s", id);
+        String sql_command = String.format("SELECT * FROM coordinates WHERE id = %d", id);
         ResultSet resultSet = statement.executeQuery(sql_command);
 
         resultSet.next();
@@ -88,7 +88,7 @@ public class DatabaseConnector {
     public Organization readOrganization(int id) throws SQLException, InvalidValue {
         Statement statement = this.connection.createStatement();
 
-        String sql_command = String.format("SELECT * FROM organization WHERE id = %s", id);
+        String sql_command = String.format("SELECT * FROM organization WHERE id = %d", id);
         ResultSet resultSet = statement.executeQuery(sql_command);
 
         resultSet.next();
@@ -119,7 +119,7 @@ public class DatabaseConnector {
     public OrganizationType readOrganizationType(int id) throws SQLException {
         Statement statement = this.connection.createStatement();
 
-        String sql_command = String.format("SELECT * FROM organization_type WHERE id = %s", id);
+        String sql_command = String.format("SELECT * FROM organization_type WHERE id = %d", id);
         ResultSet resultSet = statement.executeQuery(sql_command);
 
         resultSet.next();
@@ -141,7 +141,7 @@ public class DatabaseConnector {
     public UnitOfMeasure readUnitOfMeasure(int id) throws SQLException {
         Statement statement = this.connection.createStatement();
 
-        String sql_command = String.format("SELECT * FROM unit_of_measure WHERE id = %s", id);
+        String sql_command = String.format("SELECT * FROM unit_of_measure WHERE id = %d", id);
         ResultSet resultSet = statement.executeQuery(sql_command);
 
         resultSet.next();
