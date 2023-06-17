@@ -12,6 +12,8 @@ import java.io.*;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Class for connecting with Clients
@@ -19,6 +21,7 @@ import java.net.SocketException;
 public class UDPServer {
     private int serverPort;
     private DatagramSocket datagramSocket;
+    private final ExecutorService executorService = Executors.newFixedThreadPool(3);
 
     /**
      * Basic constructor for UDPServer
@@ -81,38 +84,47 @@ public class UDPServer {
      * @param commandExecutor commandExecutor
      */
     public void interactiveMode (CommandExecutor commandExecutor, DatabaseConnector databaseConnector) {
-        while (true){
-            try {
-                DatagramPacket datagramPacket = this.readRequest();
-                Object request = this.getRequest(datagramPacket);
-                if (request instanceof ClientCommand) {
-                    ClientCommand command = (ClientCommand) request;
+        new Thread(() -> {
+            while (true) {
+                try {
+                    DatagramPacket datagramPacket = this.readRequest();
+                    Object request = this.getRequest(datagramPacket);
 
-                    // validate user
-                    Response response;
-                    User user = User.auth(command.getUserData(), databaseConnector);
-                    if (user != null)
-                    {
-                        command.getUserData().setId(user.getId());
-                        response = commandExecutor.doCommand(command);
-                    }
-                    else {
-                        response = new Response(ResponseCodes.ERROR);
-                        response.setMessage("User auth failed");
-                    }
+                    new Thread(() -> {
+                        Response response = new Response(ResponseCodes.ERROR);
+                        if (request instanceof ClientCommand) {
+                            ClientCommand command = (ClientCommand) request;
+                            // validate user
+                            User user = User.auth(command.getUserData(), databaseConnector);
+                            if (user != null) {
+                                command.getUserData().setId(user.getId());
+                                response = commandExecutor.doCommand(command);
+                            } else {
+                                response = new Response(ResponseCodes.ERROR);
+                                response.setMessage("User auth failed");
+                            }
 
-                    this.sendResponse(response, datagramPacket);
+                        } else if (request instanceof AuthRequest) {
+                            AuthRequest authRequest = (AuthRequest) request;
+                            response = User.handleAuthRequest(authRequest, databaseConnector);
+                        }
+
+                        Response finalResponse = response;
+                        executorService.submit(() -> {
+                            try {
+                                this.sendResponse(finalResponse, datagramPacket);
+                            } catch (IOException e) {
+                                System.out.println("Failed to send response");
+                            }
+                        });
+
+                    }).start();
+
+                } catch (IOException | ClassNotFoundException e) {
+                    e.printStackTrace();
                 }
-
-                else if (request instanceof AuthRequest){
-                    AuthRequest authRequest = (AuthRequest) request;
-                    Response response = User.handleAuthRequest(authRequest, databaseConnector);
-                    this.sendResponse(response, datagramPacket);
-                }
-            } catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
             }
-        }
+        }).start();
     }
 
 }
