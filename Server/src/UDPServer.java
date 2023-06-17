@@ -1,12 +1,17 @@
 import Commands.ClientCommand;
 import Commands.CommandExecutor;
+import Connection.AuthRequest;
+import Run.DatabaseConnector;
+import User.User;
 import Utils.Response;
+import Utils.ResponseCodes;
 
 import java.io.*;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
-import java.util.Scanner;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Class for connecting with Clients
@@ -14,6 +19,7 @@ import java.util.Scanner;
 public class UDPServer {
     private int serverPort;
     private DatagramSocket datagramSocket;
+    private final ExecutorService executorService = Executors.newFixedThreadPool(3);
 
     /**
      * Basic constructor for UDPServer
@@ -58,37 +64,65 @@ public class UDPServer {
     /**
      * Method which get Command from Client
      * @param datagramPacket
-     * @return ClientCommand Command from Client
+     * @return Object request from Client
      * @throws IOException
      * @throws ClassNotFoundException
      */
-    public ClientCommand getRequest (DatagramPacket datagramPacket) throws IOException, ClassNotFoundException {
+    public Object getRequest (DatagramPacket datagramPacket) throws IOException, ClassNotFoundException {
         byte[] data = datagramPacket.getData();
 
         ByteArrayInputStream bais = new ByteArrayInputStream(data);
         ObjectInputStream ois = new ObjectInputStream(bais);
 
-        ClientCommand clientCommand = (ClientCommand) ois.readObject();
-        return clientCommand;
+        return ois.readObject();
     }
 
     /**
      * Interactive mode on Server
      * @param commandExecutor commandExecutor
      */
-    public void interactiveMode (CommandExecutor commandExecutor) {
-        while (true){
-            try {
-                DatagramPacket datagramPacket = this.readRequest();
-                ClientCommand command = this.getRequest(datagramPacket);
+    public void interactiveMode (CommandExecutor commandExecutor, DatabaseConnector databaseConnector) {
+        new Thread(() -> {
+            while (true) {
+                try {
+                    DatagramPacket datagramPacket = this.readRequest();
+                    Object request = this.getRequest(datagramPacket);
 
-                Response response = commandExecutor.doCommand(command);
+                    new Thread(() -> {
+                        Response response = new Response(ResponseCodes.ERROR);
+                        if (request instanceof ClientCommand) {
+                            ClientCommand command = (ClientCommand) request;
+                            // validate user
+                            User user = User.auth(command.getUserData(), databaseConnector);
+                            if (user != null) {
+                                command.getUserData().setId(user.getId());
+                                response = commandExecutor.doCommand(command);
+                            } else {
+                                response = new Response(ResponseCodes.ERROR);
+                                response.setMessage("User auth failed");
+                            }
 
-                this.sendResponse(response, datagramPacket);
-            } catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
+                        } else if (request instanceof AuthRequest) {
+                            AuthRequest authRequest = (AuthRequest) request;
+                            response = User.handleAuthRequest(authRequest, databaseConnector);
+                        }
+
+                        Response finalResponse = response;
+                        executorService.submit(() -> {
+                            try {
+                                this.sendResponse(finalResponse, datagramPacket);
+                            } catch (IOException e) {
+                                System.out.println("Failed to send response");
+                            }
+                        });
+
+                    }).start();
+
+                } catch (IOException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
             }
-        }
+        }).start();
     }
 
 }

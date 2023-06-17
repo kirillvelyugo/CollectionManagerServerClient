@@ -6,6 +6,7 @@ import Expections.WrongArguments;
 import Utils.CLIManager;
 import Utils.Response;
 import Utils.ResponseCodes;
+import Utils.UserData;
 
 /**
  * Add command. Request element from CLI and add it to collection.
@@ -54,5 +55,17 @@ public class InsertClient implements ClientCommand {
             System.out.println("Request failed with message: " + response.getMessage());
         }
         
+    }
+
+    private UserData userData;
+
+    @Override
+    public UserData getUserData() {
+        return userData;
+    }
+
+    @Override
+    public void setUserData(UserData userData) {
+        this.userData = userData;
     }
 }

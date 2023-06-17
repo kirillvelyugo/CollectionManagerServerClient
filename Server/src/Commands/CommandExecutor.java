@@ -36,7 +36,6 @@ public class CommandExecutor {
     public Response doCommand (ClientCommand command){
         ServerCommand serverCommand = this.commands.get(command.getClass());
         Response response = serverCommand.execute(command);
-
         return response;
     }
 }

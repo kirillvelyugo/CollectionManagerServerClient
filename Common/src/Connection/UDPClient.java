@@ -1,9 +1,10 @@
 package Connection;
 
 import Commands.ClientCommand;
-import Commands.CommandExecutor;
+import Commands.CommandMapper;
 import Expections.WrongArguments;
 import Utils.Response;
+import Utils.UserData;
 
 import java.io.*;
 import java.net.*;
@@ -44,6 +45,17 @@ public class UDPClient {
         datagramSocket.send(packet);
     }
 
+
+    public void sendAuthRequest(AuthRequest request) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream(2048);
+        ObjectOutputStream oos = new ObjectOutputStream(baos);
+        oos.writeObject(request);
+        byte[] data = baos.toByteArray();
+
+        DatagramPacket packet = new DatagramPacket(data, data.length, this.inetSocketAddress);
+        datagramSocket.send(packet);
+    }
+
     /**
      * Method which get response from Server
      * @return Response response from Server
@@ -72,9 +84,10 @@ public class UDPClient {
     /**
      * Interactive mode on Client side
      */
-    public void interactiveMode (){
-        CommandExecutor commandExecutor = new CommandExecutor(this);
+    public void interactiveMode (UserData userData){
+        CommandMapper commandExecutor = new CommandMapper(this);
 
+        System.out.println("Interactive mode started");
         while (true){
             Scanner console = new Scanner(System.in);
             try {
@@ -90,6 +103,7 @@ public class UDPClient {
                         continue;
                     }
                     clientCommand = clientCommand.getNewObject();
+                    clientCommand.setUserData(userData);
                     clientCommand.prepareRequest(args);
 
                     this.sendRequest(clientCommand);

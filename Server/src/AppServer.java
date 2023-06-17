@@ -1,27 +1,27 @@
 import CollectionManager.CollectionManager;
 import Commands.CommandExecutor;
-import CommandsServer.ServerCLICommands;
+import Run.DatabaseConnector;
 import Utils.RequestPort;
 
 import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.SQLException;
+import java.util.Scanner;
 import java.util.concurrent.Executors;
 
 public class AppServer {
-    public static void main(String[] args) throws IOException {
-        Path path = null;
-        String path_str = System.getenv("path");
+    public static void main(String[] args) throws IOException, SQLException {
 
-        if(path_str == null){
-            System.out.println("No path specified. Data not loaded.");
-        }
-        else {
-            path = Paths.get(path_str);
-        }
+        // read database password from file
 
-        CollectionManager collectionManager = new CollectionManager(path);
-        collectionManager.load(path);
+        Path path = Paths.get("/home/studs/s367971/.pgpass");
+        Scanner scanner = new Scanner(path);
+        String pass = scanner.nextLine().split(":")[4];
+
+        DatabaseConnector databaseConnector = new DatabaseConnector("jdbc:postgresql://pg/studs", "s367971", pass);
+
+        CollectionManager collectionManager = new CollectionManager(databaseConnector);
 
         CommandExecutor commandExecutor = new CommandExecutor(collectionManager);
 
@@ -29,6 +29,6 @@ public class AppServer {
 
         Executors.newSingleThreadExecutor().execute(new CommandsServer.CommandExecutor(collectionManager));
 
-        udpServer.interactiveMode(commandExecutor);
+        udpServer.interactiveMode(commandExecutor, databaseConnector);
     }
 }

@@ -1,11 +1,7 @@
 package CommandsServer;
 
 import CollectionManager.CollectionManager;
-import Commands.*;
-import Expections.WrongArguments;
-import Utils.Response;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -21,7 +17,6 @@ public class CommandExecutor implements Runnable{
         this.collectionManager = collectionManager;
         this.commands = new HashMap<>();
 
-        this.commands.put("save", new SaveCLIServer(collectionManager));
         this.commands.put("exit", new ExitCLIServer());
         this.commands.put("help", new HelpCLIServer(commands));
     }

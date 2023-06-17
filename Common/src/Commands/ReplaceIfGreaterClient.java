@@ -2,14 +2,12 @@ package Commands;
 
 
 import Collection.Product;
-import Expections.InvalidValue;
 import Expections.WrongArguments;
 import Utils.CLIManager;
 import Utils.Response;
 import Utils.ResponseCodes;
+import Utils.UserData;
 
-import java.util.LinkedHashMap;
-import java.util.Set;
 
 /**
  * Class replace the value by key if the new value is greater than the old one
@@ -56,5 +54,17 @@ public class ReplaceIfGreaterClient implements ClientCommand {
         } else {
             System.out.println("Request failed with message " + response.getMessage());
         }
+    }
+
+    private UserData userData;
+
+    @Override
+    public UserData getUserData() {
+        return userData;
+    }
+
+    @Override
+    public void setUserData(UserData userData) {
+        this.userData = userData;
     }
 }

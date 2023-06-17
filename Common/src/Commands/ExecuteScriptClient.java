@@ -3,9 +3,9 @@ package Commands;
 import Connection.UDPClient;
 import Expections.WrongArguments;
 import Utils.Response;
+import Utils.UserData;
 
 import javax.naming.NoPermissionException;
-import java.beans.Transient;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,12 +18,12 @@ import java.util.Scanner;
 
 /**
  * Execute script command. Takes one argument with script file path
- * This command uses collectionManager reference to call "add" method
+ * This command uses collectionManager
  */
 public class ExecuteScriptClient implements ClientCommand {
     HashMap<String, ClientCommand> commands;
     private final ArrayList<Integer> history;
-    transient private UDPClient udpClient;
+    transient private UDPClient udpClient; // to do not send to server
 
     public ExecuteScriptClient(HashMap<String, ClientCommand> commands, UDPClient udpClient) {
         this.commands = commands;
@@ -82,6 +82,7 @@ public class ExecuteScriptClient implements ClientCommand {
             if (commands.containsKey(args[0])){
                 try {
                    ClientCommand command = commands.get(args[0]);
+                   command.setUserData(userData);
                     if (command.getClass() == ExecuteScriptClient.class) {
                         if (this.history.contains(args[1].hashCode())) {
                             System.out.println("Recursion! Command skipped!");
@@ -89,11 +90,14 @@ public class ExecuteScriptClient implements ClientCommand {
                         }
                         this.history.add(args[0].hashCode());
                     }
+                    command.prepareRequest(args);
                     this.udpClient.sendRequest(command);
                     Response response = this.udpClient.readResponse();
                     command.acceptResponse(response);
                 }
                 catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                } catch (WrongArguments e) {
                     throw new RuntimeException(e);
                 }
             }else{
@@ -105,5 +109,17 @@ public class ExecuteScriptClient implements ClientCommand {
     @Override
     public void acceptResponse(Response response) {
 
+    }
+
+    private UserData userData;
+
+    @Override
+    public UserData getUserData() {
+        return userData;
+    }
+
+    @Override
+    public void setUserData(UserData userData) {
+        this.userData = userData;
     }
 }

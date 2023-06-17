@@ -1,16 +1,9 @@
 package CollectionManager;
 
 import Collection.Product;
-import Utils.Wrapper;
-import jakarta.xml.bind.JAXBContext;
-import jakarta.xml.bind.JAXBException;
-import jakarta.xml.bind.Marshaller;
-import jakarta.xml.bind.Unmarshaller;
-import javax.naming.NoPermissionException;
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.InvalidPathException;
-import java.nio.file.Path;
+import Expections.InvalidValue;
+import Run.DatabaseConnector;
+import java.sql.SQLException;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -21,14 +14,26 @@ import java.util.*;
 public class CollectionManager {
     private LinkedHashMap <String, Product> products;
 
-    private final Path default_path;
+    private final DatabaseConnector databaseConnector;
 
     /**
      * Constructor of class - create Collection Tools
      */
-    public CollectionManager (Path path){
-        default_path = path;
+    public CollectionManager (DatabaseConnector databaseConnector){
+        this.databaseConnector = databaseConnector;
         products = new LinkedHashMap<>();
+        try {
+            fillFromDB();
+        } catch (SQLException | InvalidValue e){
+            e.printStackTrace();
+        }
+    }
+
+    private void fillFromDB() throws SQLException, InvalidValue {
+        ArrayList<String> keySet = databaseConnector.getProductsKeys();
+        for (String key : keySet){
+            products.put(key, databaseConnector.readProduct(key));
+        }
     }
 
     /**
@@ -37,7 +42,13 @@ public class CollectionManager {
      * @param obj Object, which have to add in collection
      */
     public void addObj (String key, Product obj){
-        products.put(key, obj);
+        try {
+            int id = databaseConnector.addProduct(obj, key);
+            obj.setId(id);
+            products.put(key, obj);
+        } catch (SQLException e){
+            System.out.println("Error while saving!");
+        }
     }
 
     /**
@@ -45,7 +56,12 @@ public class CollectionManager {
      * @param key Key
      */
     public void removeKey (String key){
-        products.remove(key);
+        try {
+            databaseConnector.removeProduct(key);
+            products.remove(key);
+        } catch (SQLException e){
+            System.out.println("Error while removing!");
+        }
     }
 
     /**
@@ -85,7 +101,12 @@ public class CollectionManager {
      * @param product product
      */
     public void update(String key, Product product) {
-        this.products.replace(key, product);
+        try {
+            databaseConnector.updateProduct(product, key);
+            this.products.replace(key, product);
+        } catch (SQLException e){
+            System.out.println("Error while updating!");
+        }
     }
 
     /**
@@ -100,7 +121,13 @@ public class CollectionManager {
      * Clear collection
      */
     public void clear (){
-        this.products.clear();
+        try {
+            databaseConnector.clearDatabase();
+            this.products.clear();
+        } catch (SQLException e){
+            System.out.println("Error while clearing!");
+        }
+
     }
 
     /**
@@ -120,117 +147,34 @@ public class CollectionManager {
         return products.get(key);
     }
 
-    /**
-     * Return default path
-     * @return Default path
-     */
-    public Path getDefault_path(){
-        return default_path;
-    }
 
     /**
      * Return information about collection
      * @return String with information
      */
-    public String getInfo(){
+    public String getInfo() {
         String info = "";
         info += "Information about collection:\n";
         ZonedDateTime creationDate = null;
 
         Set<String> keyset = this.getKeySet();
 
-        for(String key : keyset){
+        for (String key : keyset) {
             if (creationDate == null) creationDate = this.getByKey(key).getCreationDate();
-            if(this.getByKey(key).getCreationDate().compareTo(creationDate) < 0){
+            if (this.getByKey(key).getCreationDate().compareTo(creationDate) < 0) {
                 creationDate = this.getByKey(key).getCreationDate();
             }
         }
 
-        if (creationDate == null){
+        if (creationDate == null) {
             info += "Cannot spot creation date because collection is empty\n";
-        }else{
+        } else {
             info += "Created at " + creationDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")) + '\n';
             info += "Collection type is " + this.products.getClass().getName() + '\n';
             info += "Amount of items stored in - " + this.products.size() + '\n';
         }
 
         return info;
-    }
-
-    /**
-     * Save collection in file
-     * @param path Path to file
-     * @throws JAXBException if xml is not correct
-     */
-    public void save(Path path) throws JAXBException {
-        try (FileWriter fileWriter = new FileWriter(path.toFile())) {
-            JAXBContext jc = JAXBContext.newInstance(Wrapper.class);
-            Wrapper wrapper = new Wrapper();
-            wrapper.setHashtable(products);
-            fileWriter.write(objectToXml(jc, wrapper));
-            System.out.println("Saved successfully");
-        }
-        catch (IOException e){
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Convert object in Xml
-     * @param jaxbContext JaxbContext
-     * @param object Object to convert
-     * @return Converted data
-     * @throws JAXBException if xml is not correct
-     */
-    public static String objectToXml(JAXBContext jaxbContext, Object object) throws JAXBException
-    {
-        StringWriter writerTo = new StringWriter();
-        Marshaller marshaller = jaxbContext.createMarshaller();
-        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-        marshaller.marshal(object, writerTo);
-        return writerTo.toString();
-    }
-
-    /**
-     * Open file upload data
-     * @param path Path to file
-     */
-    public void load(Path path){
-        if (path == null){
-            return;
-        }
-        try{
-            if(!path.isAbsolute()) path = path.toAbsolutePath();
-            if(!Files.exists(path)) throw new FileNotFoundException("File " + path + " not found");
-            if(!Files.isReadable(path)) throw new NoPermissionException("Cannot read file.");
-            if(!Files.isWritable(path)) throw new NoPermissionException("Cannot write to file.");
-        }
-        catch (InvalidPathException e){
-            System.out.println("Argument must be a correct file path. Data not loaded.");
-            return;
-        }
-        catch (FileNotFoundException e){
-            System.out.println(e.getMessage() + ". Data not loaded."); // file does not exist
-            return;
-        }
-        catch (NoPermissionException e){
-            System.out.print("No enough permissions to " + path + " - " + e.getMessage() + " Data not loaded."); // permissions deny
-            return;
-        }
-
-       try (InputStream inputStream = Files.newInputStream(path)) {
-           JAXBContext jaxbContext = JAXBContext.newInstance(Wrapper.class);
-           Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-
-           Wrapper wrapper = (Wrapper) jaxbUnmarshaller.unmarshal(inputStream);
-           LinkedHashMap <String, Product> products = wrapper.getHashtable();
-           System.out.println(products.size() + " element(s) loaded from file");
-
-           this.products = products;
-       }
-       catch (IOException | JAXBException e) {
-           System.out.println("Error while reading. Data not loaded.");
-       }
     }
 
     public LinkedHashMap<String, Product> getProducts() {

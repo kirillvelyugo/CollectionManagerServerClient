@@ -4,6 +4,7 @@ package Commands;
 import Expections.WrongArguments;
 import Utils.Response;
 import Utils.ResponseCodes;
+import Utils.UserData;
 
 /**
  * Clear command. Delete all items from collection.
@@ -31,5 +32,17 @@ public class ClearClient implements ClientCommand {
         } else {
             System.out.println(response.getMessage());
         }
+    }
+
+    private UserData userData;
+
+    @Override
+    public UserData getUserData() {
+        return userData;
+    }
+
+    @Override
+    public void setUserData(UserData userData) {
+        this.userData = userData;
     }
 }

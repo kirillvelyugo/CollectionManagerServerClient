@@ -2,6 +2,7 @@ package Commands;
 
 import Expections.WrongArguments;
 import Utils.Response;
+import Utils.UserData;
 
 /**
  * Exit command. Stops program execution without saving any data to file
@@ -26,5 +27,17 @@ public class ExitClient implements ClientCommand {
     @Override
     public void acceptResponse(Response response) {
 
+    }
+
+    private UserData userData;
+
+    @Override
+    public UserData getUserData() {
+        return userData;
+    }
+
+    @Override
+    public void setUserData(UserData userData) {
+        this.userData = userData;
     }
 }

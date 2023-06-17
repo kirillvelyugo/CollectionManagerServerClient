@@ -2,7 +2,6 @@ package Commands;
 
 import Collection.Product;
 import CollectionManager.CollectionManager;
-import Expections.InvalidValue;
 import Utils.Response;
 import Utils.ResponseCodes;
 
@@ -27,6 +26,12 @@ public class UpdateServer implements ServerCommand {
         if(key == null) {
             Response response = new Response(ResponseCodes.ERROR);
             response.setMessage("No element with such id");
+            return response;
+        }
+
+        if (collectionManager.getByKey(key).getCreatedBy() != command.getUserData().getId()) {
+            Response response = new Response(ResponseCodes.OK_WITH_MESSAGE);
+            response.setMessage("you don't have permissions to remove it element");
             return response;
         }
 

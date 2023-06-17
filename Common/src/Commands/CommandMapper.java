@@ -4,10 +4,10 @@ import Connection.UDPClient;
 
 import java.util.HashMap;
 
-public class CommandExecutor {
+public class CommandMapper {
     private final HashMap<String, ClientCommand> commands;
 
-    public CommandExecutor(UDPClient udpClient) {
+    public CommandMapper(UDPClient udpClient) {
         this.commands = new HashMap<>();
 
         this.commands.put("help", new HelpClient());
