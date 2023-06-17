@@ -2,6 +2,7 @@ package Run;
 
 import Collection.*;
 import Expections.InvalidValue;
+import User.User;
 
 import java.net.InetAddress;
 import java.sql.*;
@@ -217,6 +218,35 @@ public class DatabaseConnector {
         String sql_command = String.format("DELETE FROM product WHERE key = '%s'", key);
 
         statement.executeUpdate(sql_command);
+    }
+
+    public int addUser(User user) throws SQLException {
+        Statement statement = this.connection.createStatement();
+
+        // if not exists
+        String sql_command = String.format("INSERT INTO users(username, pass_hash, salt) VALUES('%s', '%s', '%s')",
+                user.getUsername(), user.getPassHash(), user.getSalt());
+       statement.executeUpdate(sql_command);
+
+        return  this.getId("users");
+    }
+
+    public User getUser(String username) throws SQLException {
+        Statement statement = this.connection.createStatement();
+
+        String sql_command = String.format("SELECT * FROM users WHERE username = '%s'", username);
+        ResultSet resultSet = statement.executeQuery(sql_command);
+
+        if (resultSet.next()){
+            User user = new User();
+            user.setUsername(username);
+            user.setPassHash(resultSet.getString("pass_hash"));
+            user.setSalt(resultSet.getString("salt"));
+            user.setId(resultSet.getInt("id"));
+            return user;
+        }
+
+       return null;
     }
 
     /**
