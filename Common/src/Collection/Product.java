@@ -6,6 +6,7 @@ import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
 import java.util.UUID;
 
 import java.io.Serializable;
@@ -25,6 +26,7 @@ public class Product implements Comparable<Product>, Serializable {
     private String partNumber; // Field can be null
     private UnitOfMeasure unitOfMeasure; // Field can be null
     private Organization manufacturer; // Field can be null
+    private int createdBy = -1;
 
     public Product() {
         creationDate = ZonedDateTime.now();
@@ -32,6 +34,14 @@ public class Product implements Comparable<Product>, Serializable {
 
     public Integer getId() {
         return id;
+    }
+
+    public int getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(int createdBy) {
+        this.createdBy = createdBy;
     }
 
     public String getName() {
@@ -63,9 +73,9 @@ public class Product implements Comparable<Product>, Serializable {
     }
 
 
-
     /**
      * Set Id
+     *
      * @param id id
      */
     public void setId(Integer id) {
@@ -74,27 +84,36 @@ public class Product implements Comparable<Product>, Serializable {
 
     /**
      * Set name
+     *
      * @param name name of product
      * @throws InvalidValue if name is null or name is empty
      */
     public void setName(String name) throws InvalidValue {
-        if (name == null) {throw new InvalidValue("name shouldn't be null");}
-        if (name.length() == 0) {throw new InvalidValue("name shouldn't be empty");}
+        if (name == null) {
+            throw new InvalidValue("name shouldn't be null");
+        }
+        if (name.length() == 0) {
+            throw new InvalidValue("name shouldn't be empty");
+        }
         this.name = name;
     }
 
     /**
      * Set coordinates
+     *
      * @param coordinates coordinates of product
      * @throws InvalidValue if coordinates is null
      */
     public void setCoordinates(Coordinates coordinates) throws InvalidValue {
-        if (coordinates == null) {throw new InvalidValue("coordinates shouldn't be null");}
+        if (coordinates == null) {
+            throw new InvalidValue("coordinates shouldn't be null");
+        }
         this.coordinates = coordinates;
     }
 
     /**
      * Set creation date
+     *
      * @param creationDate coordinates of product
      */
     public void setCreationDate(ZonedDateTime creationDate) {
@@ -103,17 +122,23 @@ public class Product implements Comparable<Product>, Serializable {
 
     /**
      * Set price
+     *
      * @param price price of product
      * @throws InvalidValue if price < 0 or price is null
      */
     public void setPrice(Double price) throws InvalidValue {
-        if (price == null) {throw new InvalidValue("price shouldn't be null");}
-        if (price <= 0) {throw new InvalidValue("price shouldn't be less than 0");}
+        if (price == null) {
+            throw new InvalidValue("price shouldn't be null");
+        }
+        if (price <= 0) {
+            throw new InvalidValue("price shouldn't be less than 0");
+        }
         this.price = price;
     }
 
     /**
      * Set part number
+     *
      * @param partNumber partNumber of product
      * @throws InvalidValue if partNumber is null
      */
@@ -123,6 +148,7 @@ public class Product implements Comparable<Product>, Serializable {
 
     /**
      * Set unit of measure
+     *
      * @param unitOfMeasure unitOfMeasure for product
      * @throws InvalidValue if unitOfMeasure is null
      */
@@ -132,24 +158,30 @@ public class Product implements Comparable<Product>, Serializable {
 
     /**
      * Set manufacturer
+     *
      * @param manufacturer manufacturer
      * @throws InvalidValue if manufacturer is null
      */
     public void setManufacturer(Organization manufacturer) throws InvalidValue {
-        if (manufacturer == null) {throw new InvalidValue("manufacturer shouldn't be null");}
+        if (manufacturer == null) {
+            throw new InvalidValue("manufacturer shouldn't be null");
+        }
         this.manufacturer = manufacturer;
     }
 
     @Override
     public String toString() {
-        return "Product: id = " + this.id +
-                ", name = " + this.name +
-                ", {" + this.coordinates +
-                "} , creationDate = " + this.creationDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")) +
-                ", price = " + this.price +
-                ", partNumber = " + this.partNumber +
-                ", unitOfMeasure = " + this.unitOfMeasure +
-                ", manufacturer = {" + this.manufacturer + "}";
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", coordinates=" + coordinates +
+                ", creationDate=" + creationDate +
+                ", price=" + price +
+                ", partNumber='" + partNumber + '\'' +
+                ", unitOfMeasure=" + unitOfMeasure +
+                ", manufacturer=" + manufacturer +
+                ", createdBy=" + createdBy +
+                '}';
     }
 
     @Override

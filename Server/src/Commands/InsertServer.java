@@ -27,6 +27,7 @@ public class InsertServer implements ServerCommand {
             return response;
         }
 
+        product.setCreatedBy(command.getUserData().getId());
         this.collectionManager.addObj(key, product);
 
         return new Response(ResponseCodes.OK);

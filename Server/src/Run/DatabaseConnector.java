@@ -178,6 +178,7 @@ public class DatabaseConnector {
         product.setPartNumber(resultSet.getString("part_number"));
         product.setCreationDate(resultSet.getTimestamp("creation_date").toLocalDateTime().atZone(ZoneId.of("Europe/Moscow")));
         product.setUnitOfMeasure(this.readUnitOfMeasure(resultSet.getInt("unit_of_measure_id")));
+        product.setCreatedBy(resultSet.getInt("created_by_id"));
 
         return product;
     }
@@ -187,10 +188,10 @@ public class DatabaseConnector {
         Statement statement = this.connection.createStatement();
 
         // if not exists
-        String sql_command = String.format("INSERT INTO product(key, name, price, coordinates_id, manufacturer_id, part_number, creation_date, unit_of_measure_id) SELECT '%s', '%s', '%s', %d, %d, '%s', '%s', %d " +
+        String sql_command = String.format("INSERT INTO product(key, name, price, coordinates_id, manufacturer_id, part_number, creation_date, unit_of_measure_id, created_by_id) SELECT '%s', '%s', '%s', %d, %d, '%s', '%s', %d, %d" +
                         "WHERE NOT EXISTS (SELECT 1 FROM product WHERE key='%s')",
                 key, product.getName(), product.getPrice(), this.addCoordinates(product.getCoordinates()), this.addOrganization(product.getManufacturer()),
-                product.getPartNumber(), product.getCreationDate().toLocalDateTime(), this.getUnitOfMeasureID(product.getUnitOfMeasure()), key);
+                product.getPartNumber(), product.getCreationDate().toLocalDateTime(), this.getUnitOfMeasureID(product.getUnitOfMeasure()), product.getCreatedBy(), key);
         int numberAdded = statement.executeUpdate(sql_command);
         
         if (numberAdded != 0) return  this.getId("product");
