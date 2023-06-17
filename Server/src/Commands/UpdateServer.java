@@ -30,6 +30,12 @@ public class UpdateServer implements ServerCommand {
             return response;
         }
 
+        if (collectionManager.getByKey(key).getCreatedBy() != command.getUserData().getId()) {
+            Response response = new Response(ResponseCodes.OK_WITH_MESSAGE);
+            response.setMessage("you don't have permissions to remove it element");
+            return response;
+        }
+
         productNew.setId(id);
         collectionManager.update(key, productNew);
 

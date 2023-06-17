@@ -22,13 +22,17 @@ public class RemoveGreaterKeyServer implements ServerCommand {
         RemoveGreaterKeyClient removeGreaterKeyClient = (RemoveGreaterKeyClient) command;
         String key = removeGreaterKeyClient.getKey();
 
+        int userId = command.getUserData().getId();
+
         int counter = 0;
         Set<String> keyset = collectionManager.getKeySet();
         Set<String> toRemove = new HashSet<>();
         for(String k : keyset){
-            if (k.compareTo(key) > 0){
-                toRemove.add(k);
-                counter += 1;
+            if (userId == collectionManager.getByKey(key).getCreatedBy()) {
+                if (k.compareTo(key) > 0) {
+                    toRemove.add(k);
+                    counter += 1;
+                }
             }
         }
         collectionManager.getKeySet().removeAll(toRemove);

@@ -25,6 +25,12 @@ public class RemoveKeyServer implements ServerCommand {
             response.setMessage("no element with this key in the collection");
             return response;
         }
+        if (collectionManager.getByKey(key).getCreatedBy() != command.getUserData().getId()) {
+            response.setResponseCode(ResponseCodes.OK_WITH_MESSAGE);
+            response.setMessage("you don't have permissions to remove it element");
+            return response;
+        }
+
         collectionManager.removeKey(removeKeyClient.getKey());
         return new Response(ResponseCodes.OK);
     }

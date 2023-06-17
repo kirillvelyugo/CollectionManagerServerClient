@@ -4,6 +4,8 @@ import CollectionManager.CollectionManager;
 import Utils.Response;
 import Utils.ResponseCodes;
 
+import java.util.Set;
+
 /**
  * Clear command. Delete all items from collection.
  */
@@ -16,7 +18,16 @@ public class ClearServer implements ServerCommand {
 
     @Override
     public Response execute(ClientCommand command) {
-        collectionManager.clear();
+
+        int userId = command.getUserData().getId();
+        Set<String> keySet = collectionManager.getKeySet();
+        for (String key : keySet){
+            int created_by_id = collectionManager.getByKey(key).getCreatedBy();
+            if (created_by_id == userId){
+                collectionManager.removeKey(key);
+            }
+        }
+
         return new Response(ResponseCodes.OK);
     }
 

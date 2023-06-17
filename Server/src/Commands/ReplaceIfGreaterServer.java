@@ -28,6 +28,12 @@ public class ReplaceIfGreaterServer implements ServerCommand {
             return response;
         }
 
+        if (collectionManager.getByKey(key).getCreatedBy() != command.getUserData().getId()) {
+            response.setResponseCode(ResponseCodes.OK_WITH_MESSAGE);
+            response.setMessage("you don't have permissions to remove it element");
+            return response;
+        }
+
         Product oldProduct = collectionManager.getByKey(key);
         Product newProduct = replaceIfGreaterClient.getProduct();
 

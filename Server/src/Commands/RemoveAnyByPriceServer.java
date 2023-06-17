@@ -19,11 +19,15 @@ public class RemoveAnyByPriceServer implements ServerCommand {
         RemoveAnyByPriceClient removeAnyByPriceClient = (RemoveAnyByPriceClient) command;
         Response response = new Response();
 
+        int userId = command.getUserData().getId();
+
         for(String key : collectionManager.getKeySet()){
-            if (collectionManager.getByKey(key).getPrice().equals(removeAnyByPriceClient.getPrice())){
-                collectionManager.removeKey(key);
-                response.setResponseCode(ResponseCodes.OK);
-                return response;
+            if (collectionManager.getByKey(key).getCreatedBy() == userId) {
+                if (collectionManager.getByKey(key).getPrice().equals(removeAnyByPriceClient.getPrice())) {
+                    collectionManager.removeKey(key);
+                    response.setResponseCode(ResponseCodes.OK);
+                    return response;
+                }
             }
         }
 

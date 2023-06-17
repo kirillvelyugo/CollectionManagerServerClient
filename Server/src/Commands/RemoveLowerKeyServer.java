@@ -22,13 +22,17 @@ public class RemoveLowerKeyServer implements ServerCommand {
         RemoveLowerKeyClient removeLowerKeyClient = (RemoveLowerKeyClient) command;
         String key = removeLowerKeyClient.getKey();
 
+        int userId = command.getUserData().getId();
+
         int counter = 0;
         Set<String> keyset = collectionManager.getKeySet();
         Set<String> toRemove = new HashSet<>();
         for(String k : keyset){
-            if (k.compareTo(key) < 0){
-                toRemove.add(k);
-                counter += 1;
+            if(collectionManager.getByKey(key).getCreatedBy() == userId) {
+                if (k.compareTo(key) < 0) {
+                    toRemove.add(k);
+                    counter += 1;
+                }
             }
         }
         collectionManager.getKeySet().removeAll(toRemove);

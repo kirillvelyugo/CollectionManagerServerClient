@@ -87,6 +87,7 @@ public class UDPClient {
     public void interactiveMode (UserData userData){
         CommandMapper commandExecutor = new CommandMapper(this);
 
+        System.out.println("Interactive mode started");
         while (true){
             Scanner console = new Scanner(System.in);
             try {
