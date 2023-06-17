@@ -45,6 +45,17 @@ public class UDPClient {
         datagramSocket.send(packet);
     }
 
+
+    public void sendAuthRequest(AuthRequest request) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream(2048);
+        ObjectOutputStream oos = new ObjectOutputStream(baos);
+        oos.writeObject(request);
+        byte[] data = baos.toByteArray();
+
+        DatagramPacket packet = new DatagramPacket(data, data.length, this.inetSocketAddress);
+        datagramSocket.send(packet);
+    }
+
     /**
      * Method which get response from Server
      * @return Response response from Server
@@ -91,6 +102,7 @@ public class UDPClient {
                         continue;
                     }
                     clientCommand = clientCommand.getNewObject();
+                    clientCommand.setUserData(userData);
                     clientCommand.prepareRequest(args);
 
                     this.sendRequest(clientCommand);

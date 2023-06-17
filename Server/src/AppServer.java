@@ -23,6 +23,6 @@ public class AppServer {
 
         Executors.newSingleThreadExecutor().execute(new CommandsServer.CommandExecutor(collectionManager));
 
-        udpServer.interactiveMode(commandExecutor);
+        udpServer.interactiveMode(commandExecutor, databaseConnector);
     }
 }

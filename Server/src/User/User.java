@@ -1,10 +1,15 @@
 package User;
 
+import Connection.AuthRequest;
+import Run.DatabaseConnector;
+import Utils.Response;
+import Utils.ResponseCodes;
 import Utils.UserData;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 import java.util.Random;
 
 public class User {
@@ -13,7 +18,7 @@ public class User {
     private String salt;
     private int id;
 
-    private String generateSalt(){
+    private static String generateSalt(){
         int leftLimit = 97;
         int rightLimit = 122;
         int targetStringLength = 10;
@@ -31,7 +36,64 @@ public class User {
 
     private boolean validatePass(String pass){
         String hash = this.getHash(pass + this.salt);
-        return this.passHash.equals(this.getHash(pass + salt));
+        return this.passHash.equals(hash);
+    }
+
+    public static boolean auth(UserData userData, DatabaseConnector databaseConnector){
+        try {
+            User user = databaseConnector.getUser(userData.getUsername());
+            if (user == null) return false;
+
+            if (user.validatePass(userData.getPassword())) return true;
+
+            return false; // not valid
+        } catch (SQLException e){
+            return false;
+        }
+    }
+
+    public static Response handleAuthRequest(AuthRequest authRequest, DatabaseConnector databaseConnector){
+        UserData userData =  authRequest.getUserData();
+        if (userData.isToSignUp()){
+            try {
+                User user = User.createUser(userData);
+                databaseConnector.addUser(user);
+                Response response = new Response(ResponseCodes.OK);
+                response.setPayload(AuthRequest.AuthStatus.SUCCESS);
+                return response;
+            } catch (SQLException e){
+                Response response = new Response(ResponseCodes.OK);
+                response.setPayload(AuthRequest.AuthStatus.FAILED);
+                return response;
+            }
+        }
+
+        try {
+            User user = databaseConnector.getUser(userData.getUsername());
+            if (user == null){
+                Response response = new Response(ResponseCodes.OK);
+                response.setPayload(AuthRequest.AuthStatus.USER_NOT_EXISTS);
+                return response;
+            }
+
+            if (user.validatePass(userData.getPassword())){
+                Response response = new Response(ResponseCodes.OK);
+                response.setPayload(AuthRequest.AuthStatus.SUCCESS);
+                return response;
+            }
+
+            else {
+                Response response = new Response(ResponseCodes.OK);
+                response.setPayload(AuthRequest.AuthStatus.WRONG_PASS);
+                return response;
+            }
+
+        } catch (SQLException e){
+            Response response = new Response(ResponseCodes.OK);
+            response.setPayload(AuthRequest.AuthStatus.FAILED);
+            return response;
+        }
+
     }
 
     private String getHash(String line){
@@ -50,10 +112,10 @@ public class User {
         return hashtext;
     }
 
-    private User createUser(UserData userData){
+    private static User createUser(UserData userData){
         User user = new User();
-        user.salt = this.generateSalt();
-        user.passHash = this.getHash(userData.getPassword() + this.salt);
+        user.salt = generateSalt();
+        user.passHash = user.getHash(userData.getPassword() + user.salt);
         user.username = userData.getUsername();
         return user;
     }

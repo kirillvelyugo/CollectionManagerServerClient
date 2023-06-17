@@ -1,7 +1,11 @@
 import Commands.ClientCommand;
 import Commands.CommandExecutor;
 import Commands.CommandMapper;
+import Connection.AuthRequest;
+import Run.DatabaseConnector;
+import User.User;
 import Utils.Response;
+import Utils.UserData;
 
 import java.io.*;
 import java.net.DatagramPacket;
@@ -58,33 +62,41 @@ public class UDPServer {
     /**
      * Method which get Command from Client
      * @param datagramPacket
-     * @return ClientCommand Command from Client
+     * @return Object request from Client
      * @throws IOException
      * @throws ClassNotFoundException
      */
-    public ClientCommand getRequest (DatagramPacket datagramPacket) throws IOException, ClassNotFoundException {
+    public Object getRequest (DatagramPacket datagramPacket) throws IOException, ClassNotFoundException {
         byte[] data = datagramPacket.getData();
 
         ByteArrayInputStream bais = new ByteArrayInputStream(data);
         ObjectInputStream ois = new ObjectInputStream(bais);
 
-        ClientCommand clientCommand = (ClientCommand) ois.readObject();
-        return clientCommand;
+        return ois.readObject();
     }
 
     /**
      * Interactive mode on Server
      * @param commandExecutor commandExecutor
      */
-    public void interactiveMode (CommandExecutor commandExecutor) {
+    public void interactiveMode (CommandExecutor commandExecutor, DatabaseConnector databaseConnector) {
         while (true){
             try {
                 DatagramPacket datagramPacket = this.readRequest();
-                ClientCommand command = this.getRequest(datagramPacket);
+                Object request = this.getRequest(datagramPacket);
+                if (request instanceof ClientCommand) {
+                    ClientCommand command = (ClientCommand) request;
 
-                Response response = commandExecutor.doCommand(command);
+                    Response response = commandExecutor.doCommand(command);
 
-                this.sendResponse(response, datagramPacket);
+                    this.sendResponse(response, datagramPacket);
+                }
+
+                else if (request instanceof AuthRequest){
+                    AuthRequest authRequest = (AuthRequest) request;
+                    Response response = User.handleAuthRequest(authRequest, databaseConnector);
+                    this.sendResponse(response, datagramPacket);
+                }
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }

@@ -26,7 +26,10 @@ public class Login {
             AuthRequest authRequest = new AuthRequest(userData);
             AuthRequest.AuthStatus authStatus = authRequest.auth(udpClient);
 
-            if (authStatus.equals(AuthRequest.AuthStatus.SUCCESS)) return userData;
+            if (authStatus.equals(AuthRequest.AuthStatus.SUCCESS)) {
+                System.out.println("Login success");
+                return userData;
+            }
 
             if (authStatus.equals(AuthRequest.AuthStatus.USER_NOT_EXISTS)) {
                 System.out.println("User does not exist. Do you want to create a new one? [yes/no]");
@@ -40,7 +43,7 @@ public class Login {
             }
 
             if ((authStatus.equals(AuthRequest.AuthStatus.FAILED))) {
-                System.out.println("An error uccered");
+                System.out.println("An error occurred");
                 return null;
             }
         }
