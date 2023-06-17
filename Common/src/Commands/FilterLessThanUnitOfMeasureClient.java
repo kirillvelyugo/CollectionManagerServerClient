@@ -5,6 +5,7 @@ import Collection.UnitOfMeasure;
 import Expections.WrongArguments;
 import Utils.Response;
 import Utils.ResponseCodes;
+import Utils.UserData;
 
 import java.util.ArrayList;
 
@@ -52,5 +53,17 @@ public class FilterLessThanUnitOfMeasureClient implements ClientCommand {
         } else if (response.getResponseCode().equals(ResponseCodes.OK_WITH_MESSAGE)) {
             System.out.println("Done." + response.getMessage());
         }
+    }
+
+    private UserData userData;
+
+    @Override
+    public UserData getUserData() {
+        return userData;
+    }
+
+    @Override
+    public void setUserData(UserData userData) {
+        this.userData = userData;
     }
 }

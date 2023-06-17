@@ -3,6 +3,7 @@ package Commands;
 import Connection.UDPClient;
 import Expections.WrongArguments;
 import Utils.Response;
+import Utils.UserData;
 
 import javax.naming.NoPermissionException;
 import java.beans.Transient;
@@ -105,5 +106,17 @@ public class ExecuteScriptClient implements ClientCommand {
     @Override
     public void acceptResponse(Response response) {
 
+    }
+
+    private UserData userData;
+
+    @Override
+    public UserData getUserData() {
+        return userData;
+    }
+
+    @Override
+    public void setUserData(UserData userData) {
+        this.userData = userData;
     }
 }

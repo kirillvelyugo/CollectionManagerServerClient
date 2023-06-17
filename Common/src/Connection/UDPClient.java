@@ -1,9 +1,10 @@
 package Connection;
 
 import Commands.ClientCommand;
-import Commands.CommandExecutor;
+import Commands.CommandMapper;
 import Expections.WrongArguments;
 import Utils.Response;
+import Utils.UserData;
 
 import java.io.*;
 import java.net.*;
@@ -72,8 +73,8 @@ public class UDPClient {
     /**
      * Interactive mode on Client side
      */
-    public void interactiveMode (){
-        CommandExecutor commandExecutor = new CommandExecutor(this);
+    public void interactiveMode (UserData userData){
+        CommandMapper commandExecutor = new CommandMapper(this);
 
         while (true){
             Scanner console = new Scanner(System.in);

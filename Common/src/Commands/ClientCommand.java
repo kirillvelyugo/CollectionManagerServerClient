@@ -2,6 +2,7 @@ package Commands;
 
 import Expections.WrongArguments;
 import Utils.Response;
+import Utils.UserData;
 
 import java.io.Serializable;
 
@@ -36,4 +37,8 @@ public interface ClientCommand extends Serializable {
      * @see Response
      */
     public void acceptResponse(Response response);
+
+    public UserData getUserData();
+
+    public void setUserData(UserData userData);
 }

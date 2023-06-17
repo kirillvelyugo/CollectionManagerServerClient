@@ -4,6 +4,7 @@ package Commands;
 import Expections.WrongArguments;
 import Utils.Response;
 import Utils.ResponseCodes;
+import Utils.UserData;
 
 /**
  * Class remove from the collection all items whose key exceeds the specified one
@@ -40,5 +41,17 @@ public class RemoveGreaterKeyClient implements ClientCommand {
         } else {
             System.out.println(response.getMessage());
         }
+    }
+
+    private UserData userData;
+
+    @Override
+    public UserData getUserData() {
+        return userData;
+    }
+
+    @Override
+    public void setUserData(UserData userData) {
+        this.userData = userData;
     }
 }

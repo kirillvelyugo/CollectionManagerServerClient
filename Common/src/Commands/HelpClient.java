@@ -3,6 +3,7 @@ package Commands;
 import Expections.WrongArguments;
 import Utils.Response;
 import Utils.ResponseCodes;
+import Utils.UserData;
 
 /**
  * Help command. Prints info about all available commands
@@ -30,5 +31,17 @@ public class HelpClient implements ClientCommand {
         } else {
             System.out.println("Request failed with message " + response.getMessage());
         }
+    }
+
+    private UserData userData;
+
+    @Override
+    public UserData getUserData() {
+        return userData;
+    }
+
+    @Override
+    public void setUserData(UserData userData) {
+        this.userData = userData;
     }
 }

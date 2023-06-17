@@ -5,6 +5,7 @@ import Expections.WrongArguments;
 import Utils.CLIManager;
 import Utils.Response;
 import Utils.ResponseCodes;
+import Utils.UserData;
 
 /**
  * Class update the value of a collection item whose id is equal to the specified one
@@ -56,5 +57,17 @@ public class UpdateClient implements ClientCommand {
         } else {
             System.out.println("Request failed with message: " + response.getMessage());
         }
+    }
+
+    private UserData userData;
+
+    @Override
+    public UserData getUserData() {
+        return userData;
+    }
+
+    @Override
+    public void setUserData(UserData userData) {
+        this.userData = userData;
     }
 }
